@@ -45,7 +45,7 @@ module Spree
         end
 
         def update_stock_status
-          update_column stocked_for_the_week: variants_including_master.all?(&:stocked_for_the_week?)
+          update_column :stocked_for_the_week, variants_including_master.all?(&:stocked_for_the_week?)
         end
 
         def liberate_slug!

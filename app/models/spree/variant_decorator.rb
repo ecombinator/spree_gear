@@ -51,7 +51,7 @@ Spree::Variant.class_eval do
 
   def update_quantity_sold_last_week
     self.update_column :quantity_sold_last_week,
-                       Spree::LineItem.where(variant_id: id)
+                       Spree::LineItem.where(variant_id: id).joins(:order)
                            .where(created_at: [7.days.ago..Time.current.beginning_of_day])
                            .where(variant_id: id, spree_orders: { state: "complete" })
                            .sum(:quantity)

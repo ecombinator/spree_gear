@@ -3,6 +3,7 @@ class AddQuantitySoldLastWeekToVariants < ActiveRecord::Migration[5.2]
     add_column :spree_variants, :quantity_sold_last_week, :integer, index: true
 
     Spree::Variant.all.each &:update_quantity_sold_last_week
+    Spree::Variant.all.each &:update_stock_status
   end
 
   def down

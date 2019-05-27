@@ -37,23 +37,29 @@ module Spree
 
       def location
         @location ||= if params[:id]
-                      Spree::StockLocation.find(params[:id])
-                    else
-                      Spree::StockLocation.first
-                    end
+                        Spree::StockLocation.find(params[:id])
+                      else
+                        Spree::StockLocation.first
+                      end
         @location ||= Spree::StockLocation.first
       end
 
       def filter_by_availability
         if params[:availability] == "discontinued"
           @variants = @variants.not_deleted.discontinued_products
-            .includes(:option_values).includes(:stock_items)
-            .order("#{Spree::Product.quoted_table_name}.name, #{Spree::Variant.quoted_table_name}.id")
+                          .includes(:option_values).includes(:stock_items)
+                          .order("#{Spree::Product.quoted_table_name}.name, #{Spree::Variant.quoted_table_name}.id")
+        elsif params[:availability] == "out_of_stock"
+          @variants = @variants.with_active_product
+                          .includes(:option_values).includes(:stock_items)
+                          .order("#{Spree::Product.quoted_table_name}.name, #{Spree::Variant.quoted_table_name}.id")
+                          .where("quantity_sold_last_week > 0")
+                          .where(spree_stock_items: { count_on_hand: 0 })
         else
           params[:availability] = "available"
           @variants = @variants.with_active_product
-            .includes(:option_values).includes(:stock_items)
-            .order("#{Spree::Product.quoted_table_name}.name, #{Spree::Variant.quoted_table_name}.id")
+                          .includes(:option_values).includes(:stock_items)
+                          .order("#{Spree::Product.quoted_table_name}.name, #{Spree::Variant.quoted_table_name}.id")
         end
       end
 

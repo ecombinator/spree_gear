@@ -19,6 +19,11 @@ namespace :spree_gear do
     Spree::Product.available.each &:update_price_ranges
   end
 
+  desc "Update product availability"
+  task update_quantities_sold_last_week: :environment do
+    Spree::Variant.all.each &:update_quantity_sold_last_week
+  end
+
   desc "sends mailing to target emails"
   task :send_mailing, [:mailing_id, :email_csv] => :environment do |task, args|
     mailing = Spree::Mailing.find(args.mailing_id)
@@ -53,14 +58,14 @@ namespace :spree_gear do
           totals_ranges = send("#{totals_interval}_ranges")
           totals_cache_expires_in = 24.hours
           Spree::Admin::ReportsController.render(:totals,
-            assigns: {
-              totals_interval: totals_interval,
-              totals_state: totals_state,
-              totals_variants: totals_variants,
-              totals_ranges: totals_ranges,
-              totals_cache_expires_in: totals_cache_expires_in
-            },
-            layout: false
+                                                 assigns: {
+                                                     totals_interval: totals_interval,
+                                                     totals_state: totals_state,
+                                                     totals_variants: totals_variants,
+                                                     totals_ranges: totals_ranges,
+                                                     totals_cache_expires_in: totals_cache_expires_in
+                                                 },
+                                                 layout: false
           )
         end
       end

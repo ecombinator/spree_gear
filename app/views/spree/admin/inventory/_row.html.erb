@@ -5,24 +5,24 @@
     <div class="modal fade" id="modal-<%= variant.id %>" role="dialog" >
       <div class="modal-dialog" role="document">
         <%= form_for variant, url: "/admin/inventory/adjust.js", class: "form-inline", remote: true do |f| %>
-        <div class="modal-content">
-          <div class="modal-body">
-            <h5>Adjust stock:</h5>
-            <h4><%= variant.short_descriptive_name %></h4>
-            <input type="hidden" name="variant_id" value="<%= variant.id %>">
-            <div class="form-group form-group-sm">
-              <div class="input-group">
-                <input type="number" min="0" class="form-control" max=""
-                       value="<%= variant.total_on_hand %>" name="adjustment">
-                <div class="input-group-addon">units</div>
+          <div class="modal-content">
+            <div class="modal-body">
+              <h5>Adjust stock:</h5>
+              <h4><%= variant.short_descriptive_name %></h4>
+              <input type="hidden" name="variant_id" value="<%= variant.id %>">
+              <div class="form-group form-group-sm">
+                <div class="input-group">
+                  <input type="number" min="0" class="form-control" max=""
+                         value="<%= variant.total_on_hand %>" name="adjustment">
+                  <div class="input-group-addon">units</div>
+                </div>
               </div>
             </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Set Stock</button>
+            </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Set Stock</button>
-          </div>
-        </div>
         <% end %>
       </div>
     </div>
@@ -33,14 +33,20 @@
     <% end %>
   </td>
   <td><%= variant.sku %></td>
-  <td><%= variant.on_backorder > 0 && "-#{variant.on_backorder} units" || '' %></td>
-  <td><%= variant.total_on_hand %> units</td>
-  <td><%= variant.total_committed %> units</td>
-  <td><%= variant.total_stock %> units</td>
-  <td class="text-center"><% if variant.stocked_for_the_week? %>
+  <td><%= variant.quantity_sold_last_week %></td>
+  <td><%= variant.total_on_hand %></td>
+  <td><%= variant.total_committed %> </td>
+  <td><%= variant.total_stock %></td>
+  <td class="text-center">
+    <% if variant.quantity_sold_last_week > 0 %>
+      <% if variant.total_on_hand == 0 %>
+        <i class="glyphicon glyphicon-alert text-danger" title="Out of stock."></i>
+      <% elsif variant.stocked_for_the_week? %>
         <i class="glyphicon glyphicon-check text-success" title="Available stock exceeds last 7 days of sales."></i>
+      <% else %>
+        <i class="glyphicon glyphicon-warning-sign text-warning" title="Available stock falls short of last 7 days of sales."></i>
+      <% end %>
     <% else %>
-        <i class="glyphicon glyphicon-warning-sign text-danger" title="Available stock falls short of last 7 days of sales."></i>
-    <% end %></td>
-
+    <% end %>
+  </td>
 </tr>

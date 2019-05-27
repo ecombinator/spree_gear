@@ -1,0 +1,11 @@
+<!-- replace 'tr[data-hook="admin_users_index_rows"] td.user_email' -->
+<td class='user_email'>
+  <% if user.identification.exists? %>
+    <a rel="popover" class="popover-image" href="<%= edit_admin_user_url(user) %>"
+       data-img="<%= user.identification.url(:medium) %>"
+       data-content="" title="Photo ID" rel="popover"><%= user.email  %></a>
+  <% else %>
+      <a rel="popover" href="<%= edit_admin_user_url(user) %>"
+         data-toggle="tooltip" title="No photo ID" data-content="No Photo ID"><%= user.email  %></a>
+  <% end %>
+</td>

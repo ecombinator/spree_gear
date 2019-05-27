@@ -1,0 +1,41 @@
+<div id="category-area">
+  <%= form_for category, url: category_url, html: {id: "category-form"} do |f| %>
+    <fieldset>
+      <div class="form-group">
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+      </div>
+    </fieldset>
+    <div class="row" id="category-products">
+      <%= render 'product_line_list', products: category.products, category_id: category.id %>
+    </div>
+    <div class="form-group">
+      <button type="button" class="btn btn-default btn-sm" data-toggle="collapse" data-target="#search-area">
+        <span class="glyphicon glyphicon-plus"></span>
+        Add Product
+      </button>
+      <%= f.submit "Save", class: 'btn btn-primary btn-sm' %>
+    </div>
+  <% end %>
+  <div id="search-area" class="collapse row">
+    <div class="row">
+      <div class="col-md-offset-1 col-md-10">
+        <hr>
+      </div>
+      <%= form_tag admin_search_category_products_path, :method => :get, class: "navbar-form" do %>
+        <div class="form-group">
+          <div class="well-sm ">
+            <%= label_tag :search_product %>
+            <%= text_field_tag :keywords, params[:keywords], class: "search-box-product" %>
+          </div>
+          <div class="well-sm ">
+            <%= label_tag :specific_name %>
+            <%= check_box_tag :specific_name, params[:keywords], id: "specific-name-checkbox" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="well-sm" id="search-content">
+    </div>
+  </div>
+</div>

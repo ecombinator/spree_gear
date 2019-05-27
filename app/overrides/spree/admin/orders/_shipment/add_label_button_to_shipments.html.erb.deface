@@ -1,0 +1,5 @@
+<!-- insert_before 'erb:contains("shipment.ready?")' -->
+
+<%= link_to "Print Label", admin_print_label_path(shipment.number), class: "pull-right btn btn-default" %>
+
+

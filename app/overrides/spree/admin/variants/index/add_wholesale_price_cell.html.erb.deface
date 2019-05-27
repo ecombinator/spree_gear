@@ -1,0 +1,4 @@
+<!-- insert_before 'tr[data-hook="variants_row"] td:nth-child(4)' -->
+<td>
+  <%= number_to_currency variant.wholesale_price %>
+</td>

@@ -1,0 +1,13 @@
+<table class="row header">
+  <tr>
+    <td>
+      <p class="lede">
+        <%= Spree.t('order_mailer.overdue_warning.dear_customer') %>
+      </p>
+      <p>
+        <%= Spree.t('order_mailer.overdue_warning.body', number: @order.number, deadline: @deadline) %>
+      </p>
+    </td>
+    <td class="expander"></td>
+  </tr>
+</table>

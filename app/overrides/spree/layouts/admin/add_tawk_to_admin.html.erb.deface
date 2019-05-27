@@ -1,0 +1,7 @@
+<!-- insert_bottom 'body' -->
+
+<% if Rails.env.production? %>
+    <%= render partial: "spree/shared/tawk", locals: { widget_id: ENV.fetch("TAWK_ADMIN_WIDGET", "5a4beafd4b401e45400bd87c/default") } %>
+<% else %>
+    <!-- Tawk would go here -->
+<% end %>

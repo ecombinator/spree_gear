@@ -1,0 +1,11 @@
+<% @mailing.sections.each do |section| %>
+  <% if section.url.to_s.length > 0 %>
+    <a href="<%= section.url %>?utm_source=email&utm_medium=email&utm_campaign=mailing_<%= @mailing.id %>" style="width: 100%; display: block; padding: 0;">
+  <% end %>
+  <%= image_tag section.image.url, width: "100%", style: "width: 80%; display: block" %>
+    <% if section.url.to_s.length > 0 %>
+        </a>
+  <% end %>
+<% end %>
+<br>
+<%= link_to "Click here", edit_mailing_recipient_url(@recipient.id) %> to change your email preferences

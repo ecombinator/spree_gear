@@ -1,0 +1,22 @@
+<table class="thanks_table">
+  <tr>
+    <td class="cell" cellspan="2"> </td>
+    <td class="cell">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="thanks cell" cellspan="2"><%== Spree.t("#{params[:template]}.thanks", order: @order)%>
+
+    </td>
+    <td class="cell">&nbsp;</td>
+  </tr>
+  <% if @order.public_comments.any? %>
+    <tr>
+      <td valign="top" class="">
+        <br/>
+        <%= @order.public_comments.map{ |c| c.comment.gsub(/([^\.])$/, "\1.") }.join(" ") %>
+      </td>
+      <td class="cell">&nbsp;</td>
+    </tr>
+  <% end %>
+
+</table>

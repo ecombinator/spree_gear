@@ -1,0 +1,10 @@
+@keyframes updated {
+  from { background-color: $brand-secondary; }
+  to { background-color: inherit; }
+}
+
+.updated {
+  animation-name: updated;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+}

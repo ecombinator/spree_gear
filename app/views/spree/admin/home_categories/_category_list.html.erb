@@ -1,0 +1,15 @@
+<% Spree::HomeCategory.order(order: :asc).each do |home_category|%>
+  <div class="list-group-item" category-id="<%= home_category.id %>">
+    <b><%= home_category.title %> </b>
+    <small><%= link_to "(edit)", edit_admin_home_category_path(home_category) %></small>
+    <small><%= link_to "(delete)", admin_home_category_path(home_category), class: "delete-category",
+      method: "delete", remote: true %></small>
+
+    <small>
+      &nbsp;&nbsp; <%= home_category.products.count %> products <%= "-" if home_category.products.any? %>
+      <% home_category.products.each_with_index do |product, index| %>
+        <%= link_to "\"#{product.name}\"", product, target: "_blank" %><%= ", " if index < home_category.products.count - 1 %>
+      <% end %>
+    </small>
+  </div>
+<% end %>

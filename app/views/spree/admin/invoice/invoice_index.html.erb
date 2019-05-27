@@ -1,0 +1,8 @@
+<body onload="window.print()">
+<% @orders.each do |order|
+    @order = order %>
+  <div style="page-break-after: always;">
+    <%= render "a4" %>
+  </div>
+<% end %>
+</body>

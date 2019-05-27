@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<%= stylesheet_link_tag "admin/html-invoice.css" , media: "all" %>
+<title><%= Spree.t("#{params[:template]}.header") %></title>
+</head>
+
+<body>
+  <div class="a4">
+    <div id="header">
+      <%= render "header" %>
+    </div>
+    <div class="address">
+      <%= render "address" %>
+    </div>
+    <div class="wrapper">
+      <div class="line_items">
+        <%= render "line_items_#{params[:template]}" %>
+      </div>
+      <div class="thanks">
+        <%= render "thanks" %>
+      </div>
+      <div class="spacer"> &nbsp;
+      </div>
+      <div class="totals">
+        <%= render "totals_#{params[:template]}" %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

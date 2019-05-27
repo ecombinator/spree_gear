@@ -1,0 +1,5 @@
+<% if can? :admin, current_store %>
+  <ul class="nav nav-sidebar">
+     <%= main_menu_tree Spree.t("admin.home_settings.name"), icon: "home", sub_menu: "home_config", url: "#sidebar-home-config" %>
+  </ul>
+<% end %>

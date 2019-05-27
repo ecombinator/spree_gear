@@ -1,0 +1,10 @@
+<!-- insert_before 'div[data-hook="admin_product_form_promotionable"]' -->
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="form-group">
+      <%= f.label :minimum_order %>
+      <%= f.number_field :minimum_order, class: 'form-control' %>
+    </div>
+  </div>
+</div>

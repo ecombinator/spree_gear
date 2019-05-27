@@ -1,0 +1,17 @@
+[Unit]
+Description=Store service
+Wants=postgresql.service
+After=postgresql.service
+
+[Service]
+Environment=RBENV_ROOT=/home/deploy/.rbenv
+Environment=RBENV_VERSION=2.5.1
+ExecStart=/home/deploy/.rbenv/bin/rbenv exec bundle exec puma -e production -C /app/current/config/puma.rb --pidfile /app/shared/tmp/pids/puma.pid
+Restart=on-abort
+WorkingDirectory=/app/current
+#Type=simple
+PIDFile=/app/shared/tmp/pids/puma.pid
+User=deploy
+
+[Install]
+WantedBy=multi-user.target

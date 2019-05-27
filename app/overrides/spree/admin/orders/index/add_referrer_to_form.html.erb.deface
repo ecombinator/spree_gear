@@ -1,0 +1,11 @@
+<!-- insert_after 'erb[loud]:contains("search_form_for")' -->
+
+<div class="form-group">
+  <label for="referrer">Referrer</label>
+  <select name="referrer" class="form-control">
+    <option value="" <%= params[:referrer] == '' && 'selected="selected"' %>>All including non-referred</option>
+    <% @sales_reps.each do |rep| %>
+        <option value="<%= rep.id %>" <%= params[:referrer] == rep.id.to_s && 'selected="selected"' %>><%= rep.rep_name %></option>
+    <% end %>
+  </select>
+</div>

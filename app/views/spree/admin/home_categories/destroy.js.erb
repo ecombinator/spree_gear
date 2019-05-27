@@ -1,0 +1,5 @@
+$('#simpleList').removeClass("blur-content").html("<%= escape_javascript(render('spree/admin/home_categories/category_list')) %>");
+
+$('.delete-category').click(function() {
+  $('#simpleList').addClass("blur-content");
+});

@@ -1,0 +1,4 @@
+<!-- insert_before 'thead[data-hook="variants_header"] tr th:nth-child(3)' -->
+<th>
+  Wholesale
+</th>

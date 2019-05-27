@@ -1,0 +1,31 @@
+<% content_for :page_title do %>
+  Home Categories <%= render "spree/admin/shared/home_settings_note" %>
+<% end %>
+
+<%= render 'category_modal_form', category_url: admin_home_categories_path, category: @new_category, modal_id: "new-category" %>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="well-lg">
+      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#new-category">
+        <span class="glyphicon glyphicon-plus"></span>
+        Add Category
+      </button>
+    </div>
+  </div>
+</div>
+
+<% if Spree::HomeCategory.any? %>
+<div class="col-md-7">
+  <div id="simpleList" class="list-group">
+    <%= render 'category_list' %>
+  </div>
+</div>
+<% else %>
+  <div class="row">
+    <div class="well-lg text-center">
+      <span class="glyphicon glyphicon-time big-icon-info"></span>
+      <h1 class="icon-info-color">No Categories Yet</h1>
+    </div>
+  </div>
+<% end %>

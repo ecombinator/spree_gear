@@ -1,0 +1,26 @@
+<% if sliders.any? %>
+    <div class="list-group">
+      <% sliders.each do |slider| %>
+          <div class="list-group-item <%= "active" if slider.active? %>">
+            <h4 class="list-group-item-heading"><%= slider.title %></h4>
+            <p class="list-group-item-text"><%= slider.slides.count %> slides</p>
+            <%= link_to "edit", edit_admin_slider_path(slider), class: "btn btn-xs btn-default edit-slider-link" %>
+            <%= link_to "delete", admin_slider_path(slider), class: "btn btn-xs btn-danger delete-slider-link", method: "delete", remote: true %>
+            <% if slider.active? %>
+                <%= link_to "deactivate", deactivate_admin_slider_path(slider), method: "delete",
+                                   remote: true, class: "btn btn-xs btn-default blur-slider-list" %>
+                <small>created <%= time_ago_in_words(slider.created_at)%> ago</small>
+            <% else %>
+                <%= link_to "activate", activate_admin_slider_path(slider), method: "post",
+                                   remote: true, class: "btn btn-xs btn-success blur-slider-list" %>
+                <small>created <%= time_ago_in_words(slider.created_at)%> ago</small>
+            <% end %>
+          </div>
+      <% end %>
+    </div>
+<% else %>
+    <div class="well-lg text-center">
+      <span class="glyphicon glyphicon-remove-circle big-icon-info"></span>
+      <h1 class="icon-info-color">No Sliders Found</h1>
+    </div>
+<% end %>

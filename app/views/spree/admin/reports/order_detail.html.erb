@@ -1,0 +1,53 @@
+<!-- app/views/spree/admin/reports/order_detail.html.erb -->
+
+<% content_for :page_title do %>
+  <%= Spree.t(:order_detail) %>
+<% end %>
+<%= content_for :page_actions do %>
+  <%= render "sales_navs" %>
+<% end %>
+
+<div class="row">
+  <%= render partial: "spree/admin/reports/filters" %>
+  <div class="col-xs-4 col-md-2 pull-right">
+    <div class="input-group">
+      <label for="paid_only">Only Paid?</label>
+      <input type="checkbox" id="paid_only" name="paid_only"
+             placeholder="" value="<%= params["paid_only"] %>"
+             class="form-control">
+    </div>
+
+  </div>
+</div>
+<table class="table small datatable" id="order-report-table" data-source="<%= order_detail_admin_reports_path(format: :json) %>">
+  <thead>
+    <tr>
+      <th class="align-left">Product IDS</th>
+      <th class="align-left">#</th>
+      <th class="align-center">Date</th>
+      <th class="align-left">E-Mail</th>
+
+      <th class="align-left"><%= Spree.t(:rep) %></th>
+      <th class="align-left">W/S</th>
+
+      <th class="align-right" data-summable="true">Total</th>
+      <th class="align-right" data-summable="true">&Sigma; Ship</th>
+      <th class="align-right" data-summable="true">Adj.</th>
+      <th class="align-right" data-summable="true">Promo</th>
+      <th class="align-right"><%= Spree.t(:tax) %></th>
+
+      <th class="align-center"></th>
+      <th class="align-center" data-summable="true">Paid</th>
+      <th class="align-center">Payment Sum</th>
+      <th class="align-center"></th>
+      <th class="align-center">Shipped</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <% 15.times do |n| %>
+       <th style="padding-left: 8px;"></th>
+      <% end %>
+    </tr>
+  </tfoot>
+</table>

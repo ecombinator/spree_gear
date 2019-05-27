@@ -1,0 +1,19 @@
+RewriteCond %{QUERY_STRING} rewrite
+
+RewriteRule ^product-category/concentrates/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/concentrates   [L,R]
+RewriteRule ^product-category/clothing/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/accessories/clothing   [L,R]
+RewriteRule ^product-category/live-resin/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/concentrates/live-resin   [L,R]
+RewriteRule ^product-category/rosin/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/concentrates/rosin   [L,R]
+RewriteRule ^product-category/shatter/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/concentrates/shatter   [L,R]
+RewriteRule ^product-category/clear/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/concentrates/clear   [L,R]
+RewriteRule ^product-category/canna-caps/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/edibles/canna-caps   [L,R]
+RewriteRule ^product-category/edibles/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/edibles  [L,R]
+RewriteRule ^product-category/clear/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/edibles/clear   [L,R]
+RewriteRule ^product-category/syrup/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/edibles/syrup   [L,R]
+RewriteRule ^product-category/tincture/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/edibles/tincture   [L,R]
+RewriteRule ^product-category/flower/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/flower   [L,R]
+RewriteRule ^product-category/cbd/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/cbd  [L,R]
+RewriteRule ^product-category/wellness/   https://TODO_REPLACE_WITH_STORE_DOMAIN/t/category/cbd  [L,R]
+
+RewriteRule ^shop/$   https://TODO_REPLACE_WITH_STORE_DOMAIN/   [L,R]
+RewriteRule ^shop/(.+)/(.+)/    https://TODO_REPLACE_WITH_STORE_DOMAIN/products/$2  [L,R]

@@ -1,0 +1,35 @@
+<!-- insert_after 'div[data-hook="admin_product_form_price"]' -->
+
+<div data-hook="admin_product_form_wholesale_price">
+  <%= f.field_container :wholesale_price, class: ['form-group'] do %>
+    <%= f.label :wholesale_price, raw(Spree.t(:wholesale_price) + content_tag(:span, ' *', class: "required")) %>
+    <%= f.text_field :wholesale_price, value: number_to_currency(@product.wholesale_price, unit: ''), class: 'form-control', disabled: (cannot? :update, @product.wholesale_price) %>
+    <%= f.error_message_on :wholesale_price %>
+  <% end %>
+</div>
+
+<% unless @product.variants_and_option_values(current_currency).any? %>
+  <div data-hook="admin_product_form_sold_to_consumers">
+    <%= f.field_container :sold_to_consumers, class: ['form-group'] do %>
+        <%= f.check_box :sold_to_consumers, value: @product.sold_to_consumers %>
+        <%= f.label :sold_to_consumers, Spree.t(:sold_to_consumers) %>
+        <%= f.error_message_on :sold_to_consumers %>
+    <% end %>
+  </div>
+
+  <div data-hook="admin_product_form_sold_to_wholesalers">
+    <%= f.field_container :sold_to_wholesalers, class: ['form-group'] do %>
+        <%= f.check_box :sold_to_wholesalers, value: @product.sold_to_wholesalers %>
+        <%= f.label :sold_to_wholesalers, Spree.t(:sold_to_wholesalers) %>
+        <%= f.error_message_on :sold_to_wholesalers %>
+    <% end %>
+  </div>
+<% end %>
+
+<div data-hook="admin_product_form_hot">
+  <%= f.field_container :hot, class: ['form-group'] do %>
+      <%= f.check_box :hot %>
+      <%= f.label :mark_as_hot %>
+      <%= f.error_message_on :hot %>
+  <% end %>
+</div>

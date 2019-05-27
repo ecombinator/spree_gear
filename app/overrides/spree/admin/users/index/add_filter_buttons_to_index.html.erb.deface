@@ -1,0 +1,10 @@
+<!-- insert_before "erb:contains('content_for :page_actions')" -->
+
+<div class="col-md-12" style="padding: 0; margin-top: 10px;">
+	<div class="nav-pills">
+		<%= button_link_to "All", admin_users_path, class: "btn btn-xs btn-filter", id: 'all_filter', data: { filter: "all", model: "user" } %>
+		<%= button_link_to "Unapproved", admin_users_path, class: "btn btn-xs btn-filter", id: 'unapproved_filter', data: { filter: "unapproved", model: "user"  } %>
+	</div>
+
+</div>
+

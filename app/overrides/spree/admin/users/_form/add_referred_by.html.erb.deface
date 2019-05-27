@@ -1,0 +1,39 @@
+<!-- insert_after 'div[data-hook="admin_user_form_password_fields"]' -->
+
+<div class="col-md-6">
+  <div class="alert-<%= f.object.wholesaler? ? "warning" : "success" %> pull-right">
+    <% if f.object.wholesaler? %>
+      WHOLESALE
+    <% else %>
+      RETAIL
+    <% end %>
+  </div>
+
+  <% if spree_current_user.has_spree_role?("superadmin") %>
+      <div class="form-group">
+        <%= f.label :referred_by_id, "Referred by" %>
+        <%= f.collection_select :referred_by_id,
+                                Spree::Role.find_by_name("sales_rep").users.select{|u| u.rep_name.present? }, :id, :rep_name,
+                                {include_blank: true}, {class: "form-control"} %>
+      </div>
+  <% else %>
+      <div class="form-group">
+        <%= f.label :referred_by_id, "Referred by" %>
+        <input readonly="readonly" type="text"
+               value="<%= @user.referred_by_id.present? ? Spree::User.find(@user.referred_by_id).rep_name : '' %>" class="form-control">
+      </div>
+  <% end %>
+  <div class="form-group">
+    <% if f.object.identification.exists? %>
+      <div class="well-sm">
+        <%= link_to @user.identification.url, target: :_blank do %>
+          <%= image_tag @user.identification.url(:medium), class: 'img-responsive' %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="alert alert-notice">No Photo ID</div>
+    <% end %>
+    <%= f.file_field :identification %>
+  </div>
+</div>
+

@@ -1,0 +1,18 @@
+<div class="col-sm-6 col-xs-12 col-md-offset-3">
+  <h3 style="margin-bottom: 40px;">Register</h3>
+
+  <p>
+    You must be a Canadian storefront or online medical cannabis dispensary
+    to qualify for a wholesale account with us. If you are a patient and
+    would like to start an account, <%= link_to "click here!",
+    spree_signup_path %>
+  </p>
+</div>
+
+<div class="col-sm-6 col-xs-12 col-md-offset-3">
+  <%= render "spree/wholesalers/form", resource: Spree::User.new %>
+</div>
+
+<div class="col-sm-6 col-xs-12 col-md-offset-3 text-center" style="margin-top: 50px;">
+  <%= link_to Spree.t(:login_as_existing), spree.login_path %>
+</div>

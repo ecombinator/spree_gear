@@ -1,0 +1,37 @@
+<table width="700" cellspacing="0" cellpadding="7" border="0" class="line_items" style="border:solid 1px #cccccc; border-bottom:none; margin:30px 0;" >
+  <colgroup>
+    <col/>
+    <col/>
+    <col class="price"/>
+    <col class="qty"/>
+    <col class="discount"/>
+    <col class="total"/>
+  </colgroup>
+  <tr>
+    <th align="left" bgcolor="#cccccc" style="background:#cccccc;" class="desc bold"><%= Spree.t(:item_description) %></th>
+    <th align="left" bgcolor="#cccccc" style="background:#cccccc;" class="price bold"><%= Spree.t(:price) unless @receipt%></th>
+    <th align="left" bgcolor="#cccccc" style="background:#cccccc;" class="qty bold"><%= Spree.t(:qty) %></th>
+    <th align="left" bgcolor="#cccccc" style="background:#cccccc;" class="qty bold"></th>
+    <th align="right" bgcolor="#cccccc" style="background:#cccccc;" class="total bold"><%= Spree.t(:total) %></th>
+  </tr>
+  <% @order.line_items.each do |item| %>
+    <tr >
+      <td class="cell" style="border-bottom:solid 1px #cccccc;">
+        <%= item.variant.product.fullname rescue item.variant.product.name %> (<%= deepest_taxon_for(item.variant.product) %>)
+        <br><%= " #{item.variant.options_text}" %>
+      </td>
+      <td class="cell price" style="border-bottom:solid 1px #cccccc;">
+        <%= number_to_currency(item.price) unless @receipt %>
+      </td>
+      <td class="cell qty" style="border-bottom:solid 1px #cccccc;"><%=item.quantity %></td>
+      <td class="cell qty" style="border-bottom:solid 1px #cccccc;">
+        <% if item.adjustment_total.to_f != 0 %>
+          <span><%=number_to_currency(item.adjustment_total) %></span>
+        <% end %>
+      </td>
+      <td align="right" class="cell total" style="border-bottom:solid 1px #cccccc;">
+          <%=number_to_currency(item.pre_tax_amount) %>
+      </td>
+    </tr>
+  <% end %>
+</table>

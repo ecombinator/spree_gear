@@ -1,0 +1,9 @@
+<% content_for :page_title do %>
+  Editing "<%= @home_category.title %>"
+<% end %>
+
+<div class="row">
+  <div class="col-md-4">
+    <%= render 'category_form', category: @home_category, category_url: admin_home_category_path %>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<% [:completed, :paid, :shipped].each do |date_field| %>
+  <div class="col-xs-4 col-md-2">
+    <div class="input-group">
+      <label for="<%= date_field %>_at_range"><%= Spree.t "admin.reports.order_states.#{date_field}" %></label>
+      <input type="text" id="<%= date_field %>_at_range" name="<%= date_field %>_at_range"
+             placeholder="Choose a date range" value="<%= params["#{date_field}_at_range"] %>"
+             class="form-control date-range">
+    </div>
+  </div>
+<% end %>
+
+<div class="col-xs-8 col-md-4">
+  <div class="btn-group btn-group-justified">
+    <%= link_to "Placed<br>Yesterday".html_safe,
+                current_path( completed_at_range: "#{1.days.ago.to_date} - #{1.days.ago.to_date}",
+                              paid_at_range: "", shipped_at_range: "" ), class: "btn btn-primary" %>
+    <%= link_to "Paid<br>Today".html_safe,
+                current_path( paid_at_range: "#{1.days.ago.to_date} - #{1.days.ago.to_date}",
+                              completed_at_range: "", shipped_at_range: "" ), class: "btn btn-primary" %>
+    <%= link_to "Shipped<br>Today".html_safe,
+                current_path( shipped_at_range: "#{1.days.ago.to_date} - #{1.days.ago.to_date}",
+                              completed_at_range: "", paid_at_range: "" ), class: "btn btn-primary" %>
+  </div>
+</div>

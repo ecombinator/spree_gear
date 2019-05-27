@@ -1,0 +1,12 @@
+<ul class="nav nav-tabs">
+  <% [ "monthly", "weekly", "daily" ].each do |interval| %>
+    <a href="<%= totals_admin_reports_path(interval: interval, state: @totals_state, detail: @totals_detail) %>"
+       class="btn btn-sm <%= @totals_interval == interval ? "btn-primary" : "btn-default" %>"><%= Spree.t interval %></a>
+  <% end %>
+  <% [ "completed", "shipped", "paid" ].each do |state| %>
+    <a href="<%= totals_admin_reports_path(interval: @totals_interval, state: state, detail: @totals_detail) %>"
+        class="btn btn-sm <%= @totals_state == state ? "btn-success" : "btn-default" %>"><%= Spree.t("admin.reports.order_states.#{state}") %></a>
+  <% end %>
+  <a href="<%= totals_admin_reports_path(interval: @totals_interval, state: @totals_state, variants: !@totals_variants ) %>"
+     class="btn btn-sm <%= @totals_variants ? "btn-info" : "btn-default" %>">Details</a>
+</ul>

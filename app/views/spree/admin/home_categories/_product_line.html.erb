@@ -1,0 +1,9 @@
+<div class="media hover-grey product-select" product-id="<%= product.id %>" <%= category_id ? "home-category-id=#{category_id}" : '' %>>
+  <div class="media-left">
+    <img src="<%= image_or_default_for(product, :mini) %>" width="60" height="60" >
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading"><%= product.name %></h4>
+    <p><%= number_to_currency product.price.to_f %></p>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+<%= form_for slider, url: slider_url, html: {id: "slider-form", multipart: true} do |f| %>
+    <div class="list-group">
+      <div class="list-group-item">
+        <div class="list-group-item-heading">
+          <h4>Slider</h4>
+        </div>
+        <fieldset>
+          <div class="form-group">
+            <%= f.label :title %>
+            <%= f.text_field :title, class: "form-control" %>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="list-group-item" id="slides-group">
+        <h4 class="list-group-item-heading">
+          Slides
+          <button type="button" class="btn btn-success btn-sm pull-right" id="add-slide">
+            <span class="glyphicon glyphicon-plus"></span>
+            Add Slide
+          </button>
+        </h4>
+        <%= f.fields_for :slides do |slide_fields| %>
+            <fieldset class="well-sm added-slide">
+              <div class="form-group">
+                <%= slide_fields.label :slide_title %>
+                <%= slide_fields.text_field :title, class: "form-control" %>
+              </div>
+              <div class="form-group">
+                <%= slide_fields.label :picture %>
+                <%= slide_fields.file_field :picture, class: "form-control" %>
+              </div>
+              <% if slide_fields.object %>
+                  <% if slide_fields.object.picture.present? %>
+                      <%= image_tag slide_fields.object.picture.url(:thumb) %>
+                  <% end %>
+                  <div class="form-inline">
+                    <%= slide_fields.label :delete? %>
+                    <%= slide_fields.check_box :_destroy %>
+
+                    <%= slide_fields.label :active %>
+                    <%= slide_fields.check_box :active, class: "form-control" %>
+                  </div>
+              <% end %>
+              <hr>
+            </fieldset>
+        <% end %>
+      </div>
+
+      <div class="form-group well-sm">
+        <button type="button" class="btn btn-default btn-sm" data-toggle="collapse" data-target="#advance-options">
+          <span class="glyphicon glyphicon-wrench"></span>
+          Advance Options
+        </button>
+
+        <%= f.submit "Save", class: 'btn btn-primary btn-sm' %>
+      </div>
+      <div id="advance-options" class="collapse">
+        <div class="form-group">
+          <%= f.label :max_height %>
+          <%= f.number_field :max_height %>
+        </div>
+      </div>
+    </div>
+<% end %>

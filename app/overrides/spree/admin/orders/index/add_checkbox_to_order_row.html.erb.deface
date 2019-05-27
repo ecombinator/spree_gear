@@ -1,0 +1,5 @@
+<!-- insert_bottom 'tr[data-hook="admin_orders_index_rows"]' -->
+
+<td>
+    <input type="checkbox" value="<%= order.number %>" class="order-row-checkbox js-order-checkbox">
+</td>

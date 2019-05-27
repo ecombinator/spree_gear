@@ -1,0 +1,11 @@
+<!-- insert_before 'erb[loud]:contains("admin_new_order")' -->
+
+<input type="hidden" name="selected_orders" id="selected_orders">
+<%= button_link_to "Labels", '#', class: "btn btn-default", icon: 'print', id: 'admin_print_labels',
+                    disabled: "true", target: "_blank", data: { url: admin_print_labels_path } %>
+<%= button_link_to "Email Invoices", '#', class: "btn btn-default", icon: 'envelope', id: 'admin_email_invoices',
+                    disabled: "true", target: "_blank", data: { url: admin_email_invoices_path } %>
+<%= button_link_to "Invoices", '#', class: "btn btn-default", icon: 'print', id: 'admin_print_invoices',
+                    disabled: "true", target: "_blank", data: { url: admin_invoices_path } %>
+<%= button_link_to "Ship", '#', class: "btn btn-default", icon: 'send', id: 'admin_ship_orders',
+                   disabled: "true", data: { url: admin_ship_orders_path } %>

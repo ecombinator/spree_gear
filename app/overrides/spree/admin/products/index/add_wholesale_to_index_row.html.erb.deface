@@ -1,0 +1,4 @@
+<!-- insert_before 'td[data-hook="admin_products_index_row_actions"]' -->
+<td class="text-center">
+  <%= number_to_currency product.wholesale_price %>
+</td>

@@ -1,0 +1,102 @@
+<%
+  show_variants ||= false
+  totals_method ||= :completed_total
+%>
+<small>
+  <em>Does not include shipping charges, whole-order adjustments, and *does* include items that have not been shipped.</em>
+</small>
+<table class="table small" id="monthly-sales-report-table">
+  <thead>
+  <tr>
+    <th>Total</th>
+    <% @totals_ranges.each do |range| %>
+      <th colspan="1" class="text-right">
+        <%= number_to_currency public_send(totals_method,
+                        taxon_items(nil),
+                        range[:range]), precision: 0 %>
+      </th>
+
+    <% end %>
+  </tr>
+  <tr>
+    <th class="align-left">Category</th>
+    <% @totals_ranges.each do |range| %>
+      <th colspan="1" class="text-right" ><%= range[:name] %></th>
+    <% end %>
+  </tr>
+  </thead>
+  <tbody>
+  <% leaf_categories.order(:name).each do |category| %>
+    <tr class="tr-taxon" data-taxon-id="<%= category.id %>">
+      <td><%= category.name %></td>
+      <% @totals_ranges.each do |range| %>
+        <!--td class="text-right">
+          <%#= public_send(totals_method,  taxon_items(category), range[:range], :quantity) %>
+        </td-->
+        <td class="text-right">
+          <%= number_to_currency public_send(totals_method,  taxon_items(category), range[:range]), precision: 0 %>
+        </td>
+      <% end %>
+    </tr>
+    <% if show_variants %>
+      <% Spree::Product.joins(:variants).joins(:line_items).merge(taxon_items(category)).order(:name).distinct.each do |product| %>
+        <tr class="tr-product collapse taxon-<%= category.id %> text-muted">
+          <td>&nbsp;&nbsp;<em><%= product.name %></em></td>
+          <% @totals_ranges.each do |range| %>
+            <!--td class="text-right">
+              <%#= number_with_delimiter public_send(totals_method,
+                                                    taxon_items(category).joins(:variant).where(spree_variants: {product_id: product.id }),
+                                                    range[:range], :quantity) %>
+            </td-->
+            <td class="text-right">
+              <em>
+                <%= number_to_currency public_send(totals_method,
+                                taxon_items(category).joins(:variant).where(spree_variants: {product_id: product.id }),
+                                range[:range]), precision: 0 %>
+              </em>
+            </td>
+
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+  <% end %>
+  <tr class="tr-taxon" data-taxon-id="0">
+    <td>Others</td>
+    <% @totals_ranges.each do |range| %>
+      <!--td class="text-right">
+        <%#= number_with_delimiter public_send(totals_method,
+                                           not_taxon_items(leaf_category_ids),
+                                           range[:range], :quantity) %>
+      </td-->
+      <td class="text-right">
+        <%= number_to_currency public_send(totals_method,
+                        not_taxon_items(leaf_category_ids),
+                        range[:range]), precision: 0 %>
+      </td>
+    <% end %>
+  </tr>
+  <% if show_variants %>
+    <% Spree::Product.joins(:variants).joins(:line_items).merge(not_taxon_items(leaf_category_ids)).order(:name).distinct.each  do |product| %>
+      <tr class="tr-product collapse taxon-0 text-muted">
+        <td>&nbsp;&nbsp;<em><%= product.name %></em></td>
+        <% @ranges.each do |range| %>
+          <!--td class="text-right">
+            <%#= number_with_delimiter public_send(totals_method,
+                                                  not_taxon_items(leaf_category_ids).joins(:variant).where(spree_variants: {product_id: product.id }),
+                                                  range[:range], :quantity) %>
+          </td-->
+          <td class="text-right">
+            <em>
+              <%= number_to_currency public_send(totals_method,
+                              not_taxon_items(leaf_category_ids).joins(:variant).where(spree_variants: {product_id: product.id }),
+                              range[:range]), precision: 0 %>
+            </em>
+          </td>
+
+        <% end %>
+      </tr>
+    <% end %>
+  <% end %>
+  </tbody>
+</table>

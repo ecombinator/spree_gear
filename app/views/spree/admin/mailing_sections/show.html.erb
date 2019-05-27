@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Mailing:</strong>
+  <%= @mailing_section.mailing %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @mailing_section.url %>
+</p>
+
+<%= link_to 'Edit', edit_admin_mailing_section_path(@mailing_section) %> |
+<%= link_to 'Back', admin_mailing_sections_path %>

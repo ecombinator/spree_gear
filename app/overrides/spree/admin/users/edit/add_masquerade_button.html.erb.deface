@@ -1,0 +1,5 @@
+<!-- insert_top 'div[data-hook="admin_user_edit_general_settings"] div.panel-heading' -->
+
+<% if spree_current_user.admin? && !@user.admin? %>
+            <%= link_to 'Act As', new_masquerade_path( user_id: @user.id ), class: 'btn btn-default pull-right btn-xs' %>
+<% end %>

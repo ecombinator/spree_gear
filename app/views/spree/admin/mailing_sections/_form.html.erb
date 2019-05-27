@@ -1,0 +1,34 @@
+<%= form_with(model: [:admin, mailing_section], local: true, class: "form") do |form| %>
+  <% if mailing_section.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(mailing_section.errors.count, "error") %> prohibited this mailing_section from being saved:</h2>
+
+      <ul>
+      <% mailing_section.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <label for="mailing_name">Mailing:</label>
+    <input type="text" class="form-control" readonly="readonly" value="<%= @mailing.name %>">
+  </div>
+
+  <%= form.hidden_field :spree_mailing_id %>
+
+  <div class="form-group">
+    <%= form.label :image %>
+    <%= form.file_field :image, class: "form-control", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :url %>
+    <%= form.text_field :url, class: "form-control", required: true %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

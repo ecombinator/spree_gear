@@ -1,0 +1,17 @@
+$('#modal-<%= @variant.id %>').modal('hide');
+$('.modal-backdrop').remove();
+$('body').removeClass("modal-open");
+
+$('#variant-<%= @variant.id %>').replaceWith(
+  $("<%= escape_javascript(render partial: 'row', locals: { variant: @variant } ) %>")
+);
+$('#variant-<%= @variant.id %>').addClass("updated")
+
+<% if @variant.product.has_multiple_weights? && @variant.siblings.any? %>
+<% @variant.siblings.each do |sibling| %>
+$('#variant-<%= sibling.id %>').replaceWith(
+  $("<%= escape_javascript(render partial: 'row', locals: { variant: sibling } ) %>")
+);
+$('#variant-<%= sibling.id %>').addClass("updated")
+<% end  %>
+<% end %>

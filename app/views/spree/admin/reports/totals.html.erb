@@ -1,0 +1,13 @@
+<!-- app/views/spree/admin/reports/monthly_shipped.html.erb -->
+
+<% content_for :page_title do %>
+  <%= t @totals_interval %> <%= t @totals_state %> <%= @totals_variants ? "Variant" : "" %> Totals
+<% end %>
+<%= content_for :page_actions do %>
+  <%= render "sales_navs" %>
+<% end %>
+
+<% cache "spree/admin/report/totals_table/#{@totals_interval}/#{@totals_state}/#{@totals_variants}",
+         expires_in: @totals_cache_expires_in  do %>
+  <%= render partial: "spree/admin/reports/totals_table", locals: { show_variants: @totals_variants, totals_method: "#{@totals_state}_total" } %>
+<% end %>

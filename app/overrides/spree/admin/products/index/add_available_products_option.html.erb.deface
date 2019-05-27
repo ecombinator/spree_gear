@@ -1,0 +1,21 @@
+<!-- insert_bottom 'div[data-hook="admin_products_index_search"]' -->
+
+<div class="col-md-12">
+  <div class="form-group radiobutton">
+    <%= f.label :product_availability %>
+    <div class="field">
+      <label class="col-md-12">
+        <%= radio_button_tag(:availability, 'default', params[:availability].nil? || params[:availability] == 'default') %>
+        <%= label_tag(:availability_default, "default") %>
+      </label>
+      <label class="col-md-12">
+        <%= radio_button_tag(:availability, '1', params[:availability] == '1') %>
+        <%= label_tag(:only_available, "Only available products") %>
+      </label>
+      <label class="col-md-12">
+        <%= radio_button_tag(:availability, '0', params[:availability] == '0') %>
+        <%= label_tag(:only_unavailable, "Only unavailable products") %>
+      </label>
+    </div>
+  </div>
+</div>

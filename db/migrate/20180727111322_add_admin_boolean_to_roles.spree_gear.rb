@@ -1,0 +1,7 @@
+# This migration comes from spree_gear (originally 20170518041842)
+# This migration comes from spree_admin_roles_and_access (originally 20170509090346)
+class AddAdminBooleanToRoles < ActiveRecord::Migration[5.0]
+  def change
+    add_column :spree_roles, :admin_accessible, :boolean, default: false
+  end
+end

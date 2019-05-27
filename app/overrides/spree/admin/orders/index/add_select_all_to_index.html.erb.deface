@@ -1,0 +1,6 @@
+<!-- insert_bottom 'tr[data-hook="admin_orders_index_headers"]' -->
+<th>
+  <%= button_tag class: "btn btn-primary btn-sm", id: "orders-select-all" do %>
+    <span class="glyphicon glyphicon-ok-circle"></span>
+  <% end %>
+</th>

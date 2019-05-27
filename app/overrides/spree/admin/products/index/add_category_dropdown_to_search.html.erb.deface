@@ -1,0 +1,3 @@
+<!-- insert_top 'div[data-hook="admin_products_index_search"]' -->
+
+<%= select_tag :taxon_id, options_from_collection_for_select(Spree::Taxon.categories, :name, :id) %>

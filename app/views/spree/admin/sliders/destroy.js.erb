@@ -1,0 +1,1 @@
+$('#sliders-list-index').removeClass("blur-content").html("<%= escape_javascript(render('spree/admin/sliders/sliders_list', banners: Spree::Slider.order(active: :desc))) %>");

@@ -1,0 +1,15 @@
+<% content_for :page_title do %>
+    Sliders <%= render "spree/admin/shared/home_settings_note" %>
+<% end %>
+
+<% content_for :page_actions do %>
+    <%= button_link_to "Add Slider", "#",
+                       {class: "btn-success", icon: "add", data: {toggle: "modal", target: "#create-slider"}} %>
+<% end if can?(:create, Spree::Slider) %>
+
+<%= render "slider_modal",
+           modal_id: "create-slider", slider_url: admin_sliders_path, slider: @new_slider, modal_title: "Add Slider" %>
+
+<div class="row" id="sliders-list-index">
+  <%= render "sliders_list", sliders: @sliders %>
+</div>

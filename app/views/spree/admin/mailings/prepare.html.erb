@@ -1,0 +1,51 @@
+<h1>Send Mailing</h1>
+
+<%= form_with(model: [:admin, @mailing], local: true) do |form| %>
+  <% if @mailing.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mailing.errors.count, "error") %> prohibited this mailing from being sent:</h2>
+
+      <ul>
+        <% @mailing.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :from %>
+    <%= form.text_field :from, class: "form-control", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :subject %>
+    <%= form.text_field :subject, class: "form-control", required: true %>
+  </div>
+
+  <div class="form-group">
+    Deliver to users (<%= number_to_human(Spree::User.all.count) %>)&#63;
+    <%= form.check_box :deliver_to_users %>
+  </div>
+
+
+  <div class="form-group">
+    Deliver to non-users (<%= number_to_human(Spree::MailingRecipient.where(spree_user_id: nil).count) %>)&#63;
+    <%= form.check_box :deliver_to_non_users %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :csv, "New recipients" %>
+    <%= form.file_field :csv, class: "form-control", required: false %>
+  </div>
+
+  <%= form.hidden_field :deliver_now, value: true %>
+  <div class="actions form-group">
+    <%= form.submit "Send Mailing", class: "btn btn-danger" %>
+  </div>
+<% end %>
+<br>
+<br>
+<%= link_to 'Back', admin_mailings_path, class: "btn btn-simple" %>
+
+

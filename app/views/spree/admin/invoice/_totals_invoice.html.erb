@@ -1,0 +1,32 @@
+<table class="totals">
+  <tr>
+    <td class="cel1 bold"><%= Spree.t(:item_total) %>: </td>
+    <td class="cel2 bold cell" align="right"><%= number_to_currency(@order.item_total) %></td>
+  </tr>
+
+  <% if @order.shipment_total.to_f > 0 %>
+    <tr>
+      <td class="cel1 bold"><%= Spree.t(:shipping_total) %>: </td>
+      <td class="cel2 bold cell" align="right"><%= number_to_currency(@order.shipment_total) %></td>
+    </tr>
+  <% end %>
+
+  <% if @order.all_adjustments.where(adjustable_type: "Spree::LineItem").any? %>
+    <tr>
+      <td class="cel1 bold"> <%= Spree.t(:item_promotions) %>:</td>
+      <td class="cel2 cell" align="right"><%= number_to_currency @order.all_adjustments.where(adjustable_type: "Spree::LineItem").sum(:amount) %></td>
+    </tr>
+  <% end %>
+
+  <% @order.all_adjustments.where.not(adjustable_type: "Spree::LineItem").eligible.each do |adjustment| %>
+    <tr>
+      <td class="cel1 bold"><%= adjustment.label %>: </td>
+      <td class="cel2 cell" align="right"><%= adjustment.display_amount.to_html %></td>
+    </tr>
+  <% end %>
+
+  <tr>
+    <td class="cel1 bold"><strong><%= Spree.t(:order_total) %>:</strong></td>
+    <td class="cel2 cell" align="right"><strong><span id='summary-order-total'><%= @order.display_total.to_html %></span></strong></td>
+  </tr>
+</table>

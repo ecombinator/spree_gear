@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-8 col-sm-offset-2 mt-2">
+    <h2>Welcome to <%= current_store.name %></h2>
+    <p>
+      Your account is pending approval. You will be notified by email when it
+      is approved. Once your account is approved, you will be able to order and checkout.
+    </p>
+    <p>
+      In the meantime please take a look around the <%= link_to "shop!", products_path, class: "text-underline" %>
+    </p>
+  </div>
+</div>

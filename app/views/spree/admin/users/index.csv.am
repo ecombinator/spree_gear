@@ -1,0 +1,12 @@
+csv << ['Email', 'Name', 'Address', 'Phone', 'Roles']
+
+Spree::User.includes(:spree_roles).includes(:ship_address).each do |user|
+  address = user.ship_address
+  csv << [
+      user.email,
+      "#{user.name}",
+      address && "#{address.address1},#{address.address2},#{address.city}, #{address.zipcode}" || "",
+      address && address.phone || "",
+      user.spree_roles.map(&:name).join(",")
+  ]
+end

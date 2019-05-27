@@ -1,0 +1,7 @@
+<%= Spree::Admin::InvoiceController.renderer.new('action_dispatch.request.path_parameters' => {
+    template: "invoice"
+  }).render(
+  template: 'spree/admin/invoice/invoice_index',
+  assigns: { orders: @orders  },
+  layout: false
+) %>

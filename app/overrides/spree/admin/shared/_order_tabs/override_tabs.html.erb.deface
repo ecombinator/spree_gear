@@ -1,0 +1,2 @@
+<!-- replace_contents 'li[data-hook="admin_order_tabs_cart_details"]' -->
+<%= link_to_with_icon 'edit',  Spree.t("admin.cart") , cart_admin_order_url(@order) %>

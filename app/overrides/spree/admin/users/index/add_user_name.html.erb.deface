@@ -1,0 +1,12 @@
+<!-- insert_before 'td[data-hook="admin_users_index_row_actions"]' -->
+<td class="text-center">
+  <%= user.name %>
+</td>
+<td class="text-center">
+  <% if user.patient %>
+    <div><%= time_ago_in_words(user.created_at) %> ago</div>
+  <% else  %>
+    <%= button_to "Waiting #{time_ago_in_words(user.created_at)}", admin_approve_user_path(user), class: "btn btn-warning btn-sm",
+                  data: { confirm: "Are you sure you want to approve #{user.email}?" }  %>
+  <% end %>
+</td>

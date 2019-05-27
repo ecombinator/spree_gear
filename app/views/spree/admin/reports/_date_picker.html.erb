@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div id="content">
+      <div id="table-filter" class="sixteen columns">
+        <fieldset>
+          <legend>Date Range</legend>
+          <form method="GET">
+            <div class="date-range-filter field align-center">
+              <label class="inline">Start</label>
+              <%= text_field_tag :created_at_gt, params[:created_at_gt], class: 'datepicker datepicker-from' %>
+              <span class="range-divider">  <i class="icon-arrow-right"></i></span>
+              <%= text_field_tag :created_at_lt, params[:created_at_lt], class: 'datepicker datepicker-to' %>
+              <label class="inline">End</label>
+            </div>
+
+            <div class="date-range-filter field align-center">
+              <label class="inline">Start</label>
+              <%= text_field_tag :shipped_at_gt, params[:shipped_at_gt], class: 'datepicker datepicker-from' %>
+              <span class="range-divider">  <i class="icon-arrow-right"></i></span>
+              <%= text_field_tag :shipped_at_lt, params[:shipped_at_lt], class: 'datepicker datepicker-to' %>
+              <label class="inline">End</label>
+            </div>
+
+            <div class="actions filter-actions">
+              <button class="icon-search button" type="submit">Search</button>
+            </div>
+          </form>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>

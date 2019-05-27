@@ -1,0 +1,13 @@
+$("#search-content").html("<%= escape_javascript(render('spree/admin/home_categories/product_line_list', products: @products, category_id: false)) %>");
+//do not show products from search results that have been added to the form
+var blacklisted = [];
+$('#category-products').children().each( function( index, element ){
+  blacklisted.push(element.getAttribute("product-id"));
+});
+
+$('#search-content').children().each( function( index, element ){
+  $.each(blacklisted, function( index, value ){
+    if (value == $(element).attr('product-id')) $(element).hide();
+  });
+});
+$("#search-content").removeClass("blur-content");

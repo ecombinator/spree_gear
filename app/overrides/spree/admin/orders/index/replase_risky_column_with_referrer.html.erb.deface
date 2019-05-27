@@ -1,0 +1,8 @@
+<!-- replace 'tr[data-hook="admin_orders_index_rows"] td:nth-child(3)' -->
+<td>
+  <% if order.user && order.user.referrer %>
+      <%= link_to order.user.referrer.rep_name, admin_orders_path( referrer: order.user.referrer) %>
+  <% else %>
+  -
+  <% end %>
+</td>

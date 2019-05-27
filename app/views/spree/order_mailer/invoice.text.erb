@@ -1,0 +1,63 @@
+  <%= Spree.t("#{@template}.header") %>
+
+<% @orders.each do |order|
+  @order = order %>
+  ------------------------------------------
+
+  <%= Spree.t(:order_number, number: @order.number)  %>
+  <%= Spree.t(:order_date) %>: <%= Spree.l(@order.completed_at.to_date) if @order.completed_at %>
+
+  <%=Spree.t(:billing_address).ljust(25)%><%=Spree.t(:shipping_address)%>
+
+<% addresses.each do |row| %>
+  <%=row[0].ljust(25)%> <%=row[1].ljust(25)%>
+<% end %>
+
+  <%
+    largest_named_product_lineitem = @order.line_items.first
+    largest_named_taxon = deepest_taxon_for(largest_named_product_lineitem.variant.product)
+    minor_column_length = 15
+
+    @order.line_items.each do |ln|
+      if largest_named_product_lineitem.name.length < ln.name.length
+        largest_named_product_lineitem = ln
+      end
+
+      if largest_named_taxon.length < deepest_taxon_for(ln.variant.product).length
+        largest_named_taxon = deepest_taxon_for(ln.variant.product)
+      end
+
+    end
+    taxon_name_length = largest_named_taxon.length + 2
+    taxon_name = "(#{largest_named_taxon})" if taxon_name_length > 2
+    product_name_length = largest_named_product_lineitem.name.length + taxon_name_length
+  %>
+  <%= Spree.t(:item_description).ljust(product_name_length) %> <%= Spree.t(:price).ljust(minor_column_length) unless @receipt%> <%= Spree.t(:qty).ljust(minor_column_length) %> <%= Spree.t(:total).ljust(minor_column_length) %>
+  ---
+  <% @order.line_items.each do |item| %>
+  <%= "#{item.variant.product.name}#{taxon_name}".ljust(product_name_length) -%> <%= number_to_currency(item.price) unless @receipt %><%= "".ljust(10) %><%="#{item.quantity}".ljust(15) %> <%=number_to_currency(item.pre_tax_amount) %> <%= "(#{number_to_currency(item.adjustment_total)})" if item.adjustment_total.to_f != 0 %>
+  <% end %>
+
+  <%== Spree.t("#{@template}.thanks", order: @order)%>
+  <% if @order.public_comments.any? %>
+    <%= @order.public_comments.map{ |c| c.comment.gsub(/([^\.])$/, "\1.") }.join(" ") %>
+   <% end %>
+
+
+  <%= Spree.t(:item_total) %>: <%= number_to_currency(@order.item_total) %>
+  <% if @order.shipment_total.to_f > 0 -%>
+  <%= Spree.t(:shipping_total) %>: <%= number_to_currency(@order.shipment_total) %>
+  <% end %>
+
+  <% if @order.all_adjustments.where(adjustable_type: "Spree::LineItem").any? %>
+    <%= Spree.t(:item_promotions) %>:
+    <%= number_to_currency @order.all_adjustments.where(adjustable_type: "Spree::LineItem").sum(:amount) %>
+  <% end %>
+
+  <% @order.all_adjustments.where.not(adjustable_type: "Spree::LineItem").eligible.each do |adjustment| %>
+    <%= adjustment.label %>:
+    <%= adjustment.display_amount  %>
+  <% end %>
+  <%= Spree.t(:order_total) %>: <%= @order.display_total %>
+
+<% end %>

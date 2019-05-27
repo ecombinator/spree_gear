@@ -1,0 +1,3 @@
+deploy ALL=(ALL) NOPASSWD: /bin/systemctl restart store
+deploy ALL=(ALL) NOPASSWD: /bin/systemctl stop store
+deploy ALL=(ALL) NOPASSWD: /bin/systemctl start store

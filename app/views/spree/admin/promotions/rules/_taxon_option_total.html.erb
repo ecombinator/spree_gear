@@ -1,0 +1,59 @@
+<div class="panel-body">
+  <div class="row">
+    <div class="form-group taxons_rule_taxons">
+      <%= label_tag "#{param_prefix}_taxon_ids_string", Spree.t('taxon_rule.choose_taxons') %>
+      <%= hidden_field_tag "#{param_prefix}[taxon_ids_string]", promotion_rule.taxon_ids.join(","), class: "taxon_picker", id: 'product_taxon_ids' %>
+    </div>
+
+    <div class="promo-rule-option-values">
+      <div class="js-promo-rule-option-values"></div>
+
+      <button class="btn btn-primary btn-success js-add-promo-rule-option-value">
+        <span class="icon icon-add"></span>
+        <%= Spree.t(:add_option) %>
+      </button>
+    </div>
+
+    <div class="form-group col-xs-12 col-md-6 no-marginb">
+      <%= select_tag "#{param_prefix}[preferred_operator_min]", options_for_select(Spree::Promotion::Rules::TaxonTotal::OPERATORS_MIN.map{|o| [Spree.t("item_total_rule.operators.#{o}"),o]}, promotion_rule.preferred_operator_min), { class: 'select2 select_item_total marginb' } %>
+      <%= select_tag "#{param_prefix}[preferred_operator_max]", options_for_select(Spree::Promotion::Rules::TaxonTotal::OPERATORS_MAX.map{|o| [Spree.t("item_total_rule.operators.#{o}"),o]}, promotion_rule.preferred_operator_max), { class: 'select2 select_item_total' } %>
+    </div>
+    <div class="form-group col-xs-12 col-md-6 no-marginb">
+      <%= text_field_tag "#{param_prefix}[preferred_amount_min]", promotion_rule.preferred_amount_min, class: 'form-control marginb' %>
+      <%= text_field_tag "#{param_prefix}[preferred_amount_max]", promotion_rule.preferred_amount_max, class: 'form-control' %>
+    </div>
+  </div>
+</div>
+
+
+<%= content_tag :div, nil, class: "hidden js-original-promo-rule-option-values",
+                data: { :'original-option-values' => promotion_rule.preferred_eligible_values } %>
+
+<script type="text/x-handlebars-template" id="promo-rule-option-value-option-values-select-name-template">
+  <%= param_prefix %>[preferred_eligible_values][{{productId}}]
+</script>
+
+<script type="text/x-handlebars-template" id="promo-rule-option-value-template">
+  <div class="promo-rule-option-value panel panel-default">
+    <div class="panel-heading">
+      <a class="js-remove-promo-rule-option-value delete pull-right">
+        <span class="icon icon-delete"></span>
+      </a>
+      <div class="col-xs-12 col-md-6">
+        <label><%= Spree.t(:product) %></label>
+      </div>
+      <div class="col-xs-12 col-md-5">
+        <label><%= Spree.t(:option_values) %></label>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="panel-body row">
+      <div class="col-xs-12 col-md-6">
+        <input class="js-promo-rule-option-value-product-select fullwidth" type="hidden" value="{{ productSelect.value }}">
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <input class="js-promo-rule-option-value-option-values-select fullwidth" name="<%= param_prefix %>[preferred_eligible_values][{{ productSelect.value }}]" type="hidden" value={{optionValuesSelect.value}}>
+      </div>
+    </div>
+  </div>
+</script>

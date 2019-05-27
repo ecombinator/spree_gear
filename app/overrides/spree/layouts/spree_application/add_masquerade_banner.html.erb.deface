@@ -1,0 +1,7 @@
+<!-- insert_top 'body' -->
+
+<% if spree_current_user && masquerading? %>
+  <div class="masquerade-box text-center">
+    Acting as <%= spree_current_user.email %> <%= link_to "Switch Back", masquerade_path, method: :delete, title: session.inspect %>
+  </div>
+<% end %>

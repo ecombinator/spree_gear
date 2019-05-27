@@ -1,0 +1,21 @@
+<table class="row header">
+  <tr>
+    <td>
+      <p class="lede">
+        <%= Spree.t('payment_mailer.confirm_email.dear_customer') %>
+      </p>
+      <p>
+        <%= Spree.t('payment_mailer.confirm_email.payment_confirmation', number: @order.number) %>
+      </p>
+      <p>
+        <%= Spree.t('payment_mailer.confirm_email.payment_information',
+                    amount: number_to_currency(@payment.amount),
+                    method: @payment.payment_method.name) %>
+      </p>
+      <p>
+        <%= Spree.t('payment_mailer.confirm_email.instructions') %>
+      </p>
+    </td>
+    <td class="expander"></td>
+  </tr>
+</table>

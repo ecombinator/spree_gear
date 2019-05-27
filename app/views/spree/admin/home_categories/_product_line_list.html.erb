@@ -1,0 +1,9 @@
+<% if products.any? %>
+  <% products.each do |product| %>
+    <%= render 'product_line', product: product, category_id: category_id %>
+  <% end %>
+<% else %>
+  <div class="well-sm">
+    <small id="no-products">No Products Found.</small>
+  </div>
+<% end %>

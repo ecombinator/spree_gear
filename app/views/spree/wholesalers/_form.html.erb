@@ -1,0 +1,73 @@
+<%= form_for resource || Spree::User.new, :as => :spree_user, :url => spree.wholesalers_path, html: {class: "sessions-form mt-2"} do |f| %>
+  <div data-hook="signup_inside_form">
+    <% if flash[:alert].present? %>
+      <div class="alert alert-danger">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :company, "Company Name", class: "control-label" %>
+      <%= f.text_field :company, class: "info form-control"  %>
+      <% if f.object.errors[:company].present? %>
+        <span class="help-block error"><%= f.object.errors[:company].first %></span>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :name, "Contact Name", class: "control-label" %>
+      <%= f.text_field :name, class: "info form-control" %>
+      <% if f.object.errors[:name].present? %>
+        <span class="help-block error"><%= f.object.errors[:name].first %></span>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :title, "Contact Title", class: "control-label" %>
+      <%= f.text_field :title, class: "info form-control" %>
+      <% if f.object.errors[:title].present? %>
+        <span class="help-block error"><%= f.object.errors[:title].first %></span>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :phone, "Phone Number", class: "control-label" %>
+      <%= f.text_field :phone, class: "info form-control" %>
+      <% if f.object.errors[:phone].present? %>
+        <span class="help-block error"><%= f.object.errors[:phone].first %></span>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :email, class: "control-label" %>
+      <%= f.email_field :email, class: "info form-control" %>
+      <% if f.object.errors[:email].present? %>
+        <span class="help-block error"><%= f.object.errors[:email].first %></span>
+      <% end %>
+    </div>
+    <div class="form-group">
+      <%= f.label :password, class: "control-label" %>
+      <%= f.password_field :password, class: "info form-control"  %>
+      <% if f.object.errors[:password].present? %>
+        <span class="help-block error"><%= f.object.errors[:password].first %></span>
+      <% end %>
+    </div>
+    <div class="form-group">
+      <%= f.label :password_confirmation, "Password again", class: "control-label" %>
+      <%= f.password_field :password_confirmation, class: "info form-control"  %>
+      <% if f.object.errors[:password_confirmation].present? %>
+        <span class="help-block error"><%= f.object.errors[:password_confirmation].first %></span>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :referred_by_id, "Referred by", class: "control-label" %>
+      <%= f.collection_select :referred_by_id, Spree::Role.find_by_name('sales_rep').users, :id, :rep_name, include_blank: true  %>
+      <% if f.object.errors[:referred_by_id].present? %>
+        <span class="help-block error"><%= f.object.errors[:referred_by_id].first %></span>
+      <% end %>
+    </div>
+
+    <%= f.submit "Register", class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,63 @@
+<!-- app/views/spree/admin/reports/order_detail.html.erb -->
+
+<% content_for :page_title do %>
+  <%= Spree.t(:line_items) %>
+<% end %>
+<%= content_for :page_actions do %>
+  <%= render "sales_navs" %>
+<% end %>
+
+<div class="row">
+  <%= render partial: "spree/admin/reports/filters" %>
+
+  <div class="col-xs-4 col-md-2 pull-right">
+      <div class="checkbox checkbox-inline">
+        <label for="paid_only">Only Paid?
+        <input type="checkbox" id="paid_only" name="paid_only" placeholder="" value="<%= params["paid_only"] %>">
+        </label>
+      </div>
+    <div class="input-group">
+      <label for="category">Category</label>
+      <div class="dropdown">
+        <div class="value-area" id="category" value=""></div>
+        <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+          <span class="value-name">Default</span>
+          <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li class="value-category" value=""><%= link_to "Default", "#" %> </li>
+          <% Spree::Taxonomy.category_names.sort.each do |category_name|%>
+            <li class="value-category" value="<%= category_name %>"><%= link_to category_name, "#" %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render partial: "spree/admin/reports/date_picker" %>
+
+<table class="table small datatable" id="line-item-report-table"
+       data-source="<%= line_items_admin_reports_path(format: :json) %>">
+  <thead>
+  <tr>
+    <th class="align-left">Product</th>
+    <th class="align-left">Category</th>
+    <th class="align-left">#</th>
+    <th class="align-center">Placed</th>
+    <th class="align-center">Paid</th>
+    <th class="align-center">Shipped</th>
+    <th class="text-right" data-summable="true">Adj.</th>
+    <th class="text-right" data-summable="true">Total</th>
+    <th class="text-right" data-summable="true">Cost</th>
+    <th class="text-right" data-summable="true">Paid</th>
+    <th class="text-right" data-summable="true">Profit</th>
+  </tr>
+  </thead>
+  <tfoot>
+  <tr>
+    <% 11.times do |n| %>
+      <th style="padding-left: 8px;"></th>
+    <% end %>
+  </tr>
+  </tfoot>
+</table>

@@ -1,0 +1,35 @@
+<!-- app/views/spree/admin/reports/reps.html.erb -->
+
+<% content_for :page_title do %>
+    <%= Spree.t(:reps) %>
+<% end %>
+<%= content_for :page_actions do %>
+    <li><%= link_to_with_icon 'icon-arrow-left', Spree.t(:back_to_reports_list), spree.admin_reports_url, class: 'button' %></li>
+<% end %>
+
+<%= render partial: "spree/admin/reports/date_picker" %>
+
+<table class="admin-report table" data-hook="order-revenue">
+  <thead>
+  <th class="align-left">Rep</th>
+  <th class="align-right">Own MTD</th>
+  <th class="align-right">Referred MTD</th>
+  <th class="align-right">Own in <%= (Time.now-1.month).strftime("%B") %></th>
+  <th class="align-right">Referred in <%= (Time.now-1.month).strftime("%B") %></th>
+  <th class="align-right">Own in <%= (Time.now-2.month).strftime("%B") %></th>
+  <th class="align-right">Referred in <%= (Time.now-2.month).strftime("%B") %></th>
+  </thead>
+  <tbody>
+  <% @reps.each do |rep| %>
+    <tr>
+      <td class="align-left"><%= rep.rep_name %></td>
+      <td class="align-right"><%= number_to_currency rep.orders.paid.where( completed_at: this_month_range).sum(:total), precision: 0 %></td>
+      <td class="align-right"><%= number_to_currency rep.referred_orders.paid.where( completed_at: this_month_range).sum(:total), precision: 0 %></td>
+      <td class="align-right"><%= number_to_currency rep.orders.paid.where( completed_at: last_month_range).sum(:total), precision: 0 %></td>
+      <td class="align-right"><%= number_to_currency rep.referred_orders.paid.where( completed_at: last_month_range).sum(:total), precision: 0 %></td>
+      <td class="align-right"><%= number_to_currency rep.orders.paid.where( completed_at: two_months_ago_range).sum(:total), precision: 0 %></td>
+      <td class="align-right"><%= number_to_currency rep.referred_orders.paid.where( completed_at: two_months_ago_range).sum(:total), precision: 0 %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Mailings</h1>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Subject</th>
+    <th>Status</th>
+    <th colspan="4"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @mailings.each do |mailing| %>
+    <tr>
+      <td><%= mailing.name %></td>
+      <td><%= mailing.subject %></td>
+      <td>
+        <% if mailing.submitted_emails_count.positive? %>
+          <%= mailing.sent_emails_count %> of <%= mailing.submitted_emails_count %> sent
+          (<%= mailing.failed_emails_count %> failed)
+        <% else %>
+          Draft
+        <% end %>
+      </td>
+      <td><%= link_to 'Sections', admin_mailing_sections_path(spree_mailing_id: mailing.id), class: "btn btn-xs btn-primary" %></td>
+      <td><%= link_to 'Edit', edit_admin_mailing_path(mailing), class: "btn btn-xs btn-default" %></td>
+      <td><%= link_to 'Prepare', prepare_admin_mailing_path(mailing), class: "btn btn-xs btn-info" %></td>
+      <td>
+        <%= button_to "Archive", admin_mailing_path(mailing.id, "mailing[archived]": true), method: :patch, class: "btn btn-xs btn-danger" %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Mailing', new_admin_mailing_path %>

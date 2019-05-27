@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @mailing.name %>
+</p>
+
+<p>
+  <strong>From:</strong>
+  <%= @mailing.from %>
+</p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @mailing.subject %>
+</p>
+
+<%= link_to 'Sections', admin_mailing_sections_path(spree_mailing_id: @mailing.id) %> |
+<%= link_to 'Edit', edit_admin_mailing_path(@mailing) %> |
+<%= link_to 'Back', admin_mailings_path %>

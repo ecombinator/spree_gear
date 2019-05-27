@@ -1,0 +1,15 @@
+<!-- insert_after  "erb[loud]:contains('plural_resource_name(Spree::Order)')" -->
+
+<div class="col-md-12" style="padding: 0; margin-top: 10px;">
+	<div class="nav-pills">
+		<%= button_link_to "All", admin_orders_path, class: "btn btn-xs btn-filter", id: 'all_filter', data: { filter: "all", model: "order" } %>
+			<% unless spree_current_user.has_spree_role?("packer") || spree_current_user.has_spree_role?("shipper") %>
+					<%= button_link_to "Unpaid", admin_orders_path, class: "btn btn-xs btn-filter", id: 'not_paid_filter', data: { filter: "not_paid", model: "order" } %>
+			<% end %>
+		<%= button_link_to "Paid", admin_orders_path, class: "btn btn-xs btn-filter", id: 'paid_filter', data: { filter: "paid", model: "order" } %>
+		<%= button_link_to "Ready to Ship", admin_orders_path, class: "btn btn-xs btn-filter", id: 'ready_filter', data: { filter: "ready", model: "order" } %>
+    <%= button_link_to "Shipped", admin_orders_path, class: "btn btn-xs btn-filter", id: 'shipped_filter', data: { filter: "shipped", model: "order" } %>
+	</div>
+
+</div>
+

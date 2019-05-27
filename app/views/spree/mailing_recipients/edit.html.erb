@@ -1,0 +1,14 @@
+<%= form_for @mailing_recipient do |f| %>
+  <h2>E-Mail Preferences</h2>
+  <p>
+    Once every couple of weeks we send out a mailing to tell you about our promotions.<br>
+    We send these emails out to people who have previously signed up on one of our sites.
+  </p>
+
+  <div class="form-group">
+    <%= f.check_box :opted_in, label: "Receive our Marketing E-Mails" %>&nbsp;
+    <%= f.label :opted_in, "Uncheck this box if no longer want to receive our e-mails" %>
+  </div>
+
+  <%= f.submit "Save Your Preferences"  %>
+<% end %>

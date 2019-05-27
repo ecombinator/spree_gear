@@ -1,0 +1,47 @@
+---
+inherit_from:
+  - .rubocop_airbnb.yml
+
+AllCops:
+  TargetRubyVersion: 2.5.1
+  TargetRailsVersion: 5.2
+  Include:
+    - Rakefile
+    - config.ru
+    - lib/**/*.rake
+  Exclude:
+    - db/schema.rb
+    - db/migrate/*
+    - node_modules/**/*
+    - bin/**/*
+Documentation:
+  Description: "Document classes and non-namespace modules."
+  Enabled: false
+Metrics/AbcSize:
+  Max: 30
+Metrics/BlockLength:
+  Exclude:
+    - spec/*.rb
+    - spec/**/*.rb
+    - "**/*_spec.rb"
+    - app/admin/*.rb
+Metrics/LineLength:
+  Max: 200
+Metrics/MethodLength:
+  Enabled: false
+Naming/FileName:
+  Exclude:
+    - 'Gemfile'
+Style/DocumentationMethod:
+  Description: 'Public methods.'
+  Enabled: false
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+Style/SymbolArray:
+  Enabled: true
+  EnforcedStyle: brackets
+Style/WordArray:
+  Enabled: true
+  EnforcedStyle: brackets
+Airbnb/DefaultScope:
+  Enabled: false

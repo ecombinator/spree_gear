@@ -1,0 +1,15 @@
+<!-- replace 'strong:contains("guest_checkout")' -->
+
+<% if @order.user.nil? %>
+<strong>
+  <%= label_tag nil, Spree.t(:guest_checkout) %>
+</strong>
+<% else %>
+<strong>
+  <% if @order.user.patient? %>
+    <%= label_tag nil, "Patient" %>
+  <% else %>
+    <%= label_tag nil, "Applicant" %>
+  <% end %>
+</strong>
+<% end %>

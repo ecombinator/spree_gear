@@ -1,0 +1,8 @@
+<head>
+  <%= javascript_include_tag 'application' %>
+
+</head>
+<body>
+<iframe type="application/pdf" id="print" src="<%= admin_label_path @shipment.number %>" width="100%" height="100%">
+</iframe>
+</body>

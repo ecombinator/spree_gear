@@ -1,0 +1,74 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  spree:
+    daily: Daily
+    line_item_detail: Line Item Detail
+    line_item_detail_description: Date-range filterable report of all line items with revenue
+    monthly: Monthly
+    order_detail: Order Detail
+    order_detail_description: Date-range filterable report of all orders with revenue
+    totals: Order Totals
+    totals_description: Variable report of order totals in various time intervals.
+    reps: Paid Totals by Sales Rep
+    reps_description: Total paid orders referred by each rep the last couple of months
+    vips: VIPs
+    vips_description: Top 25 customers by sales revenue
+    promotion_action_types:
+      buy_one_get_one:
+        name: Buy One Get One
+        description: Adds free line items of matching quantity of eligible paid line items.
+      buy_one_get_one_four_twenty:
+        name: Buy One Get One 420
+        description: |
+          Adds free line items of matching quantity of eligible paid line items if user signed up on 4/20,
+          it's their first order, and the total quantity is less than or equal to 4.
+    promotion_rule_types:
+      taxon_total:
+        name: Taxon total
+        description: The total for a taxon meets these criteria
+      taxon_option_total:
+        name: Taxon option total
+        description: The total for taxon-option combo meets these criteria
+    admin:
+      home_settings:
+        name: Home Config
+        submenu:
+          category: Categories
+          sliders: Sliders
+        warning:
+          heading: (note)
+          note: Your front-end theme might not support this feature.
+      cart: Cart
+      to_add_variants_extra_instructions: (make sure that ALL selected option types contain option values to unlock adding variants)
+      reports:
+        order_states:
+          completed: Placed
+          shipped: Shipped
+          paid: Paid
+    order_mailer:
+      overdue_canceled_email:
+        subject: Unpaid Order Canceled
+        deadline: 2 days
+        dear_customer: Dear Customer
+        body: |
+          Thanks for the order (%{number}) that you placed %{deadline} ago.  Unfortunately, we've canceled it because you
+          haven't sent us an E-Transfer for the amoune due.  We apologize for the inconvenience, but please feel free
+          to place your order again in the future.
+      overdue_warning:
+        subject: Unpaid Order Reminder
+        deadline: 1 day
+        dear_customer: Dear Customer
+        body: |
+          Order (%{number}) has not been paid yet. Our system will automatically cancel your order %{deadline} from now.
+    payment_mailer:
+      confirm_email:
+        subject: Payment Confirmation
+        dear_customer: Dear Customer
+        payment_confirmation: Payment Confirmation for Order %{number}
+        payment_information: You paid %{amount} by %{method}.
+        instructions: |
+          Thank you for your payment.  Your order is now being prepared.  You will get another email
+          once your order has shipped; the next email will contain your tracking number.
+    weekly: Weekly

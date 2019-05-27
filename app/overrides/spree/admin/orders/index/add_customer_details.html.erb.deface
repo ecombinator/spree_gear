@@ -1,0 +1,24 @@
+<!-- replace_contents 'tr[data-hook="admin_orders_index_rows"] td:nth-child(9)' -->
+<div style="white-space: nowrap;">
+  <% if order.user %>
+      <% if order.user.identification.exists? %>
+        <a class="popover-image" rel="popover" href="<%= edit_admin_user_url(order.user) %>"
+           data-img="<%= order.user.identification.url(:medium) %>" data-content=""
+           title="Photo ID" rel="popover"><%= order.email  %></a>
+      <% else %>
+          <a rel="popover" href="<%= edit_admin_user_url(order.user) %>"
+              data-toggle="tooltip" title="No photo ID" data-content="No Photo ID"><%= order.email  %></a>
+      <% end %>
+  <% else %>
+      <%= mail_to order.email %>
+  <% end %>
+  <% if order.user || order.email %>
+      <span class="icon icon-filter filterable js-add-filter" data-ransack-field="q_email_cont" data-ransack-value="<%= order.email %>"></span>
+  <% end %>
+  <% if order.user %>
+    <% if order.user.patient? %>
+        <i class="glyphicon glyphicon-ok"></i>
+    <% end %>
+    (<%= order.user.orders.count %>)
+  <% end %>
+</div>

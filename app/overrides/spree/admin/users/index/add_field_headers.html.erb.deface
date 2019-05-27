@@ -1,0 +1,8 @@
+<!-- insert_before 'th[data-hook="admin_users_index_header_actions"]' -->
+<th class="text-center">
+  Name
+</th>
+<th class="text-center">
+  Joined
+</th>
+

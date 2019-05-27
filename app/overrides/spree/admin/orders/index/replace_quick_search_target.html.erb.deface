@@ -1,0 +1,4 @@
+<!-- replace 'erb[loud]:contains("js-quick-search-target")' -->
+
+<%= f.text_field :number_cont, class: 'form-control' %>
+<%= f.hidden_field :number_or_email_cont, class: 'js-quick-search-target' %>

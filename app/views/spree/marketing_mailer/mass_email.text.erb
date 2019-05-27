@@ -1,0 +1,7 @@
+This is a special email from <%= @mailing.from %>. You'll need a modern email app to see it.
+
+Click below to see what we have in store!
+<%= @mailing.sections.where.not(url: nil).map(&:url).first %>?utm_source=email&utm_medium=email&utm_campaign=mailing_<%= @mailing.id %>
+
+Click here to change your E-Mail Preferences:
+<%= edit_mailing_recipient_url(@recipient.id) %>

@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Mailing <%= @mailing.id %> Sections</h1>
+
+<style>
+  .norotate {
+    height: 75px;
+  }
+  .rotate90 {
+    width: 75px;
+  }
+</style>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Url</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @mailing_sections.each do |mailing_section| %>
+      <tr>
+        <td class="text-center">
+          <img src="<%= mailing_section.image.url %>" class="mailing-image <%= mailing_section.image_width < mailing_section.image_height ? 'rotate90' : 'norotate' %>" >
+        </td>
+        <td><%= mailing_section.url %></td>
+        <td><%= link_to 'Remove', [:admin, mailing_section], method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Mailing Section', new_admin_mailing_section_path(spree_mailing_id: @mailing.id), class: "btn btn-default" %>

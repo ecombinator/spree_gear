@@ -1,0 +1,10 @@
+<%= Spree.t('payment_mailer.confirm_email.dear_customer') %>
+
+<%= Spree.t('payment_mailer.confirm_email.payment_confirmation', number: @order.number) %>
+============================================================
+
+<%= Spree.t('payment_mailer.confirm_email.payment_information',
+            amount: number_to_currency(@payment.amount),
+            method: @payment.payment_method.name) %>
+
+<%= Spree.t('payment_mailer.confirm_email.instructions') %>

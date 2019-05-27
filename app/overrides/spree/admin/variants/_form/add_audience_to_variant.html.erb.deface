@@ -1,0 +1,11 @@
+<!-- insert_bottom 'div[data-hook="admin_variant_form_additional_fields"]' -->
+
+<div class="form-group" data-hook="sold_to_consumers">
+  <%= f.check_box :sold_to_consumers, :value => @variant.sold_to_consumers %>
+  <%= f.label :sold_to_consumers, 'Sold to Consumers' %>
+</div>
+
+<div class="form-group" data-hook="sold_to_wholesalers">
+  <%= f.check_box :sold_to_wholesalers, :value => @variant.sold_to_wholesalers %>
+  <%= f.label :sold_to_wholesalers, 'Sold to Wholesalers' %>
+</div>

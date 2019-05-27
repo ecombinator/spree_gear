@@ -1,0 +1,12 @@
+<!-- insert_after 'div[data-hook="admin_user_form_roles"]' -->
+
+<div class="form-group">
+  <strong>Sessions</strong>
+  <div class="checkbox">
+    <%= f.label :locked_at do %>
+      <%= f.check_box :locked_at, {checked: f.object.locked_at.present? }, Time.zone.now %>
+      Lock Account
+    <% end %>
+
+  </div>
+</div>

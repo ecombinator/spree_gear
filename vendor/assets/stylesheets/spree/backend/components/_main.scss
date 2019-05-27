@@ -1,0 +1,41 @@
+#main-part {
+  padding: 15px 35px 0;
+  &.sidebar-collapsed {
+    padding-left: 85px;
+  }
+}
+
+.logo.navbar-brand {
+  padding: 5px 15px;
+}
+
+#logo {
+  width: auto;
+  height: 40px;
+}
+
+.big-icon-info {
+  color: $big-icon-info-color;
+  font-size: $big-icon-info-size;
+}
+
+.icon-info-color {
+  color: $big-icon-info-color;
+}
+
+.blur-content {
+  -webkit-filter: blur(4px);
+  -moz-filter: blur(4px);
+  -o-filter: blur(4px);
+  -ms-filter: blur(4px);
+  filter: blur(4px);
+  pointer-events: none
+}
+
+.hover-grey {
+  &:hover {
+    cursor: pointer;
+    cursor: hand;
+    background: #f3f3f3;
+  }
+}

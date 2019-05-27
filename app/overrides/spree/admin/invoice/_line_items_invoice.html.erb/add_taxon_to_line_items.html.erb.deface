@@ -1,0 +1,7 @@
+<!-- insert_bottom  "table tr td:nth-child(2)" -->
+
+<% if item %>
+  <%= deepest_taxon_for(item.variant.product) %>
+<% else %>
+  <%= item.inspect %>
+<% end %>

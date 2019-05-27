@@ -22,6 +22,7 @@ namespace :spree_gear do
   desc "Update product availability"
   task update_quantities_sold_last_week: :environment do
     Spree::Variant.all.each &:update_quantity_sold_last_week
+    Spree::Variant.all.each &:update_stock_status
   end
 
   desc "sends mailing to target emails"

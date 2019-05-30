@@ -29,6 +29,7 @@ module SpreeGear
         end
 
         def require_approval
+          return if ["user_sessions", "user_registrations", "user_passwords"].include?(controller_name)
           if spree_current_user.present?
             return if spree_current_user.approved?
             return if spree_current_user.admin?

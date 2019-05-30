@@ -21,6 +21,21 @@ module SpreeGear
         def wholesale?
           @wholesale ||= spree_current_user&.wholesaler?
         end
+
+        def require_login
+          return if spree_current_user.present?
+          return if ["user_sessions", "user_registrations", "user_passwords"].include?(controller_name)
+          redirect_to login_path and return
+        end
+
+        def require_approval
+          if spree_current_user.present?
+            return if spree_current_user.approved?
+            return if spree_current_user.admin?
+            return if spree_current_user.superadmin?
+          end
+          redirect_to purgatory_path and return
+        end
       end
     end
   end

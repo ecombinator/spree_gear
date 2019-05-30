@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   mount Spree::Core::Engine, at: "/"
 
   Spree::Core::Engine.add_routes do
+    get "/purgatory", to: "static#purgatory", as: :purgatory
+
     namespace :admin do
       get "/orders/ship" => "orders#ship_batch", as: :ship_orders
       get "/labels/print" => "labels#print_batch", as: :print_labels

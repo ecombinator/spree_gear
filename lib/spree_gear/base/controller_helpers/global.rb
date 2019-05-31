@@ -25,18 +25,14 @@ module SpreeGear
         def require_login
           return if spree_current_user.present?
           return if ["user_sessions", "user_registrations", "user_passwords"].include?(controller_name)
-          redirect_to login_path and return
+          redirect_to login_path
         end
 
         def require_approval
           return if ["user_sessions", "user_registrations", "user_passwords"].include?(controller_name)
           return if action_name == "purgatory"
-          if spree_current_user.present?
-            return if spree_current_user.approved?
-            return if spree_current_user.admin?
-            return if spree_current_user.superadmin?
-          end
-          redirect_to purgatory_path and return
+          return if spree_current_user.present? && spree_current_user.approved?
+          redirect_to purgatory_path
         end
       end
     end

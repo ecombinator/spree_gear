@@ -38,7 +38,7 @@
   <td><%= variant.total_committed %> </td>
   <td><%= variant.total_stock %></td>
   <td class="text-center">
-    <% if variant.quantity_sold_last_week > 0 %>
+    <% if variant.quantity_sold_last_week&.positive? %>
       <% if variant.total_on_hand == 0 %>
         <i class="glyphicon glyphicon-alert text-danger" title="Out of stock."></i>
       <% elsif variant.stocked_for_the_week? %>

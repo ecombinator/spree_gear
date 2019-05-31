@@ -1,4 +1,11 @@
-<h1>Thanks for Signing Up!</h1>
-<p class="lead">
-  We will email you to let you know once your account is approved.
-</p>
+<div class="row">
+  <div class="col-xs-12 text-center">
+    <h2>Thanks for Signing Up!</h2>
+    <p class="lead">
+      We will email you if your account is approved.
+    </p>
+    <p>
+      Please <a href="mailto:<%= Rails.application.config.contact_notification_email %>?Subject=Approval request">contact us</a> if you have questions.
+    </p>
+  </div>
+</div>

@@ -81,7 +81,7 @@ Spree::User.class_eval do
   end
 
   def approved?
-    patient?
+    patient? || admin? || superadmin?
   end
 
   def send_approval_email

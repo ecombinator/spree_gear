@@ -8,7 +8,12 @@ Spree::Core::Engine.routes.draw do
     end
   end
   resource :masquerade, only: [:destroy]
-  resources :mailing_recipients, only: [:edit, :update]
+  resources :mailing_recipients, only: [:edit, :update] do
+    member do
+      get :opt_out
+      get :opt_in
+    end
+  end
 
   get "/admin/reports/reps" => "admin/reports#reps", as: "reps_admin_reports"
   get "/admin/reports/vips" => "admin/reports#vips", as: "vips_admin_reports"

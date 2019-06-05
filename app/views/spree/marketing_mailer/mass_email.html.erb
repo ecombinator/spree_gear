@@ -1,3 +1,7 @@
+<p style="font-size: xx-small; text-align: center;">
+  Click here to <%= link_to "Unsubscribe", opt_out_mailing_recipient_url(@recipient.id) %>
+</p>
+<hr>
 <% @mailing.sections.each do |section| %>
   <% if section.url.to_s.length > 0 %>
     <a href="<%= section.url %>?utm_source=email&utm_medium=email&utm_campaign=mailing_<%= @mailing.id %>" style="width: 100%; display: block; padding: 0;">
@@ -7,5 +11,3 @@
         </a>
   <% end %>
 <% end %>
-<br>
-<%= link_to "Click here", edit_mailing_recipient_url(@recipient.id) %> to change your email preferences

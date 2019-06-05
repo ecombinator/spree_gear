@@ -1,6 +1,20 @@
 module Spree
   class MailingRecipientsController < StoreController
-    before_action :set_mailing_recipient, only: [:edit, :update]
+    before_action :set_mailing_recipient, only: [:edit, :update, :opt_out, :opt_in]
+
+    def opt_out
+      params["mailing_recipient"] = {
+          "opted_in": false
+      }
+      update
+    end
+
+    def opt_in
+      params["mailing_recipient"] = {
+          "opted_in": true
+      }
+      update
+    end
 
     def edit; end
 

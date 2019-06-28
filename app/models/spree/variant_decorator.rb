@@ -119,6 +119,7 @@ Spree::Variant.class_eval do
   end
 
   def update_master_visibility
+    return unless product
     ["consumers", "wholesalers"].each do |audience|
       audience = "sold_to_#{audience}".to_sym
       product.master.update_column audience, product.variants.any?(&audience)

@@ -9,7 +9,10 @@ Spree::User.class_eval do
   has_many :referred_users, class_name: "Spree::User", foreign_key: :referred_by_id
   has_many :notifications
   has_one :mailing_recipient, class_name: "Spree::MailingRecipient", foreign_key: :spree_user_id
+
+  after_create_commit :generate_referral_token!
   belongs_to :referrer, class_name: "Spree::User", foreign_key: :referred_by_id
+  belongs_to :referral_order, optional: true, class_name: "Spree::Order", foreign_key: :referral_order_id
 
   has_attached_file :identification,
                     styles: { medium: "300x300>", thumb: "100x100>" },
@@ -107,6 +110,15 @@ Spree::User.class_eval do
     end
     Spree::UserMailer.approval_granted_email(self.id).deliver_now
     generate_spree_api_key!
+  end
+
+  def generate_referral_token!
+    return unless referral_token.nil?
+    new_token = loop do
+      random_token = SecureRandom.urlsafe_base64(6, false)
+      break random_token unless self.class.exists?(referral_token: random_token)
+    end
+    self.update_columns referral_token: new_token
   end
 end
 

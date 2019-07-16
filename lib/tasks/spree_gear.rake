@@ -37,6 +37,15 @@ namespace :spree_gear do
     end
   end
 
+  desc "Generates missing referral tokens"
+  task generate_referral_tokens: :environment do
+    before = Spree::User.where(referral_token: nil).count
+    Spree::User.where(referral_token: nil).each &:generate_referral_token!
+    after = Spree::User.where(referral_token: nil).count
+    raise "Task is broken" if after > 0
+    puts "Generated #{before - after} tokens"
+  end
+
   namespace :woocomerce_importer do
     desc "Import products from the woocommerce importer"
     task import_products: :environment do

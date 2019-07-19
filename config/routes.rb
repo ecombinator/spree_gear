@@ -29,6 +29,7 @@ Spree::Core::Engine.routes.draw do
     end
   end
 
+  get "/r/:referral_token", to: "home_categories#index", as: :referral
   root to: "home_categories#index"
 end
 

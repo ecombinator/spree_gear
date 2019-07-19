@@ -6,6 +6,7 @@ module Spree
     end
 
     after_save :apply_wholesaler_discounts
+    after_save :reward_referrer, if: -> { ["paid", "credit_owed"].include? payment_state }
     has_many :notifications, as: :notifiable
 
     scope :paid, -> { where(payment_state: ["paid", "credit_owed"]) }
@@ -29,6 +30,12 @@ module Spree
 
     def payment_password
       "spree_gear#{number.to_s.last(3)}"
+    end
+
+    def reward_referrer
+      return unless user.referred_by_id
+      return unless user.referral_order_id.nil?
+
     end
 
     def apply_wholesaler_discounts

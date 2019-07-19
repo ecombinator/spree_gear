@@ -25,6 +25,9 @@ en:
           Adds free line items of matching quantity of eligible paid line items if user signed up on 4/20,
           it's their first order, and the total quantity is less than or equal to 4.
     promotion_rule_types:
+      user_referred:
+        name: User referred
+        description: User was referred by another user
       taxon_total:
         name: Taxon total
         description: The total for a taxon meets these criteria

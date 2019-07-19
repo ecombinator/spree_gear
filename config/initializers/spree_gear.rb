@@ -8,4 +8,9 @@ Rails.application.configure do
 
   config.contact_notification_email = ENV.fetch("CONTACT_NOTIFICATION_EMAIL", "info@test.com")
   config.default_mailing_list_email = ENV["DEFAULT_MAILING_LIST_EMAIL"]
+
+  config.spree.promotions.actions << Spree::Promotion::Actions::BuyOneGetOne
+  config.spree.promotions.rules << Spree::Promotion::Rules::TaxonTotal
+  config.spree.promotions.rules << Spree::Promotion::Rules::TaxonOptionTotal
+  config.spree.promotions.rules << Spree::Promotion::Rules::UserReferred
 end

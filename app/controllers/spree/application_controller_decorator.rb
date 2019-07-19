@@ -1,10 +1,19 @@
 # frozen_string_literal: true
+
 module Spree
   ApplicationController.class_eval do
     before_action :prepare_exception_notifier
 
     before_action :confirm_identification
     before_action :remove_corrupted_order
+    before_action :store_referral_token, if: -> { !spree_current_user && params["referral_token"].present? }
+
+    def store_referral_token
+      referrer = Spree::User.where(referral_token: params["referral_token"]).first
+      return unless referrer
+      session["referred_by_id"] = referrer.id
+      redirect_to root_url
+    end
 
     def confirm_identification
       return unless Rails.application.config.require_documentation

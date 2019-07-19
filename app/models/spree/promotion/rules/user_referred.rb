@@ -7,7 +7,7 @@ module Spree
         end
 
         def eligible?(order, _options = {})
-          order.user.referred_by_id.present?
+          order.user&.referred_by_id&.present? || false
         end
 
         def actionable?(line_item)

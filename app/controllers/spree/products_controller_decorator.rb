@@ -19,6 +19,7 @@ Spree::ProductsController.class_eval do
   end
 
   def index
+    @products = @products.distinct
     respond_to do |format|
       format.html {}
       format.js {}

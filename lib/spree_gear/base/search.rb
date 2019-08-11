@@ -42,9 +42,9 @@ module SpreeGear
       def price_range
         return [0, 0] unless @products.any?
         if current_user.present? && current_user.wholesaler?
-          @products.lowest_and_highest_wholesaler_prices.map {|g| g.to_i }
+          @products.lowest_and_highest_wholesaler_prices.map { |g| g.to_i }
         else
-          @products.lowest_and_highest_consumer_prices.map {|g| g.to_i }
+          @products.lowest_and_highest_consumer_prices.map { |g| g.to_i }
         end
       end
 
@@ -85,7 +85,7 @@ module SpreeGear
           return Spree::Config[:products_per_page]
         end
         if whitelisted_page_counts.include?(page_count)
-          page_count = page_count.to_i
+          page_count
         else
           Spree::Config[:products_per_page]
         end
@@ -96,24 +96,26 @@ module SpreeGear
       def apply_filters(products, params)
         return products unless products.any? && params[:filters].present?
 
-        # Taxon Filter
-        if params[:filters][:selected_categories].present?
-          products = products.in_taxons(params[:filters][:selected_categories])
-        end
-
-        # Pricerange Filter
-        if params[:filters][:variant_prices_between].present?
-          products = filter_price_range(params, products)
-        end
-
-        products
+        products = filter_categories(products, params)
+        filter_price_range(products, params)
       end
 
-      def filter_categories
-        products.in_taxons(params[:filters][:selected_categories])
+      def filter_categories(products, params)
+        return products if params[:filters][:selected_categories].blank?
+        selected_categories = selected_categories(params)
+        return products unless selected_categories&.any?
+        products.in_taxons(selected_categories)
       end
 
-      def filter_price_range(params, products)
+      def selected_categories(params)
+        @selected_categories = params[:filters][:selected_categories]
+        return @selected_categories if params[:taxon].blank?
+        taxon_name = Spree::Taxon.find(params[:taxon])&.name
+        @selected_categories.reject! { |st| st == taxon_name }
+      end
+
+      def filter_price_range(products, params)
+        return products if params[:filters][:variant_prices_between].blank?
         if current_user.present? && current_user.wholesaler?
           products = products.variant_prices_between_wholesaler(
             params[:filters][:variant_prices_between][0],
@@ -127,7 +129,6 @@ module SpreeGear
         end
         products
       end
-
     end
   end
 end

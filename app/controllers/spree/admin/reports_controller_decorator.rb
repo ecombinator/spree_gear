@@ -7,7 +7,7 @@ require_dependency "spree/admin/reports_controller"
 Spree::Admin::ReportsController.class_eval do
   include SpreeGear::Base::ViewHelpers::Reports
 
-  before_action :set_default_date_range, only: [ :order_detail, :line_item_detail ]
+  before_action :set_default_date_range, only: [:order_detail, :line_item_detail]
 
   add_available_report! :reps
   add_available_report! :vips

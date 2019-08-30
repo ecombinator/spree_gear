@@ -2,8 +2,8 @@ Spree::LineItem.class_eval do
   scope :by_product_category_name, -> (category_name) {
     joins(product: :taxons).where("lower(spree_taxons.name) = ?", category_name.downcase) }
 
-  scope :in_taxons, -> (taxon_ids) {
-    joins(product: :taxons).where("spree_taxons.id IN (?)", taxon_ids.uniq).distinct }
+  scope :in_taxons, -> (taxons) {
+    joins(product: :taxons).where("spree_taxons.id IN (?)", (taxons.respond_to?(:uniq) ? taxons.uniq : taxons)).distinct }
 
   scope :not_in_taxons, (-> (taxon_ids) { where("spree_line_items.id NOT IN (?)", in_taxons(taxon_ids).map(&:id)) })
 

@@ -2,7 +2,6 @@ require "pp"
 require "spree_gear/importers/product_importer"
 require "spree_gear/importers/product_dump"
 
-
 namespace :spree_gear do
   task test: :environment do
     puts "works"
@@ -46,6 +45,26 @@ namespace :spree_gear do
     puts "Generated #{before - after} tokens"
   end
 
+  desc "Generate referral credits"
+  task generate_referral_credits: :environment do
+    Spree::Order.joins(:user).
+      where(spree_users: { referral_order_id: nil }).
+      where.not(spree_users: { referred_by_id: nil }).
+      where(payment_state: "paid").each do |order|
+
+      next unless order.user.referral_order_id.nil?
+      referrer = Spree::User.find order.user.referred_by_id
+      order.user.update! referral_order_id: order.id
+      puts "Crediting user ##{referrer.id} for referral of user ##{order.user.id}"
+      credit = Spree::StoreCredit.create! user: referrer, memo: "Referral Credit",
+                                          amount: ENV.fetch("REFERRAL_CREDIT_AMOUNT", "25.00").to_f,
+                                          created_by: Spree::User.first,
+                                          category: Spree::StoreCreditCategory.find_by_name("Gift"),
+                                          currency: Spree::Store.current.default_currency
+      Spree::StoreCreditMailer.referral_credit_notification(credit).deliver_later
+    end
+  end
+
   namespace :woocomerce_importer do
     desc "Import products from the woocommerce importer"
     task import_products: :environment do
@@ -69,14 +88,13 @@ namespace :spree_gear do
           totals_cache_expires_in = 24.hours
           Spree::Admin::ReportsController.render(:totals,
                                                  assigns: {
-                                                     totals_interval: totals_interval,
-                                                     totals_state: totals_state,
-                                                     totals_variants: totals_variants,
-                                                     totals_ranges: totals_ranges,
-                                                     totals_cache_expires_in: totals_cache_expires_in
+                                                   totals_interval: totals_interval,
+                                                   totals_state: totals_state,
+                                                   totals_variants: totals_variants,
+                                                   totals_ranges: totals_ranges,
+                                                   totals_cache_expires_in: totals_cache_expires_in,
                                                  },
-                                                 layout: false
-          )
+                                                 layout: false)
         end
       end
       puts "done visiting totals report"
@@ -93,7 +111,7 @@ namespace :spree_gear do
 
     # eg: rake "spree_gear:import_products_dump[products_dump_1539541017.yml]"
     desc "Import products, variants, taxons from generated yml file 'products_dump'"
-    task :import_products,[:file_name] => :environment do |t, args|
+    task :import_products, [:file_name] => :environment do |t, args|
       importer = SpreeGear::Importers::ProductDump.new
       importer.import_products(args.file_name)
     end
@@ -110,17 +128,15 @@ namespace :spree_gear do
     desc "Remove unavailable items from cart"
     task prune_carts: :environment do
       Spree::Order.where(state: "cart").where("updated_at < ?", 15.minutes.ago).each do |order|
-        begin
-          order.line_items.each do |line_item|
-            next unless line_item.variant&.product&.available_on.nil? || ( line_item.variant && !line_item.variant.can_supply? )
-            puts "Removing variant #{line_item.variant_id} from order #{order.number}"
-            line_item.destroy!
-            order.persist_totals
-          end
-        rescue
-          puts "Order #{order.id} has corrupted items. Removing."
-          order.destroy
+        order.line_items.each do |line_item|
+          next unless line_item.variant&.product&.available_on.nil? || (line_item.variant && !line_item.variant.can_supply?)
+          puts "Removing variant #{line_item.variant_id} from order #{order.number}"
+          line_item.destroy!
+          order.persist_totals
         end
+      rescue
+        puts "Order #{order.id} has corrupted items. Removing."
+        order.destroy
       end
     end
   end

@@ -32,24 +32,24 @@ module SpreeGear
 
         def completed_total(line_items, completed_range, attribute = :pre_tax_amount)
           line_items.
-              where(spree_orders: {completed_at: completed_range}).
-              inject(0) { |total, li| total += li.send(attribute) }.to_i
+            where(spree_orders: {completed_at: completed_range}).
+            inject(0) { |total, li| total += li.send(attribute) }.to_i
         end
 
         def paid_total(line_items, paid_range, attribute = :pre_tax_amount)
           line_items.
             includes(order: :payments).
-              where(spree_orders: {payment_state: ["paid", "credit_owed"]}).
-              where(spree_payments: {state: "completed", completed_at: paid_range}).
-              inject(0) { |total, li| total += li.send(attribute) }.to_i
+            where(spree_orders: {payment_state: ["paid", "credit_owed"]}).
+            where(spree_payments: {state: "completed", completed_at: paid_range}).
+            inject(0) { |total, li| total += li.send(attribute) }.to_i
         end
 
         def shipped_total(line_items, shipped_range, attribute = :pre_tax_amount)
           line_items.
-              includes(order: :shipments).
-              where(spree_orders: { shipment_state: "shipped" }).
-              where(spree_shipments: { state: "shipped", shipped_at: shipped_range }).
-              inject(0) { |total, li| total += li.send(attribute) }
+            includes(order: :shipments).
+            where(spree_orders: { shipment_state: "shipped" }).
+            where(spree_shipments: { state: "shipped", shipped_at: shipped_range }).
+            inject(0) { |total, li| total += li.send(attribute) }
         end
 
         def monthly_ranges

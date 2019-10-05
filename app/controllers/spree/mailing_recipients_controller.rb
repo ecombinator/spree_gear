@@ -1,6 +1,19 @@
 module Spree
   class MailingRecipientsController < StoreController
     before_action :set_mailing_recipient, only: [:edit, :update, :opt_out, :opt_in]
+    before_action :set_mailing_recipient_by_email, only: [:create]
+
+    def create
+      @mailing_recipient ||= Spree::MailingRecipient.new(mailing_recipient_params)
+      respond_to do |format|
+        if @mailing_recipient.save
+          session[:signed_up] = true
+          format.js { render status: 200 }
+        else
+          format.js { head 422 }
+        end
+      end
+    end
 
     def opt_out
       params["mailing_recipient"] = {
@@ -33,13 +46,18 @@ module Spree
 
     private
 
-    def set_mailing_recipient
-      @mailing_recipient = Spree::MailingRecipient.find(params[:id])
+    def set_mailing_recipient_by_email
+      return unless params.has_key?(:mailing_recipient)
+      @mailing_recipient = Spree::MailingRecipient.where(email: params[:mailing_recipient][:email]).first
       head 404 unless @mailing_recipient
     end
 
+    def set_mailing_recipient
+      @mailing_recipient = Spree::MailingRecipient.find(params[:id])
+    end
+
     def mailing_recipient_params
-      params.require(:mailing_recipient).permit :opted_in
+      params.require(:mailing_recipient).permit :opted_in, :email
     end
   end
 end

@@ -8,7 +8,7 @@ Spree::Core::Engine.routes.draw do
     end
   end
   resource :masquerade, only: [:destroy]
-  resources :mailing_recipients, only: [:edit, :update] do
+  resources :mailing_recipients, only: [:create, :edit, :update] do
     member do
       get :opt_out
       get :opt_in

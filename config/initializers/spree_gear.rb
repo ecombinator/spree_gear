@@ -1,6 +1,6 @@
 Rails.application.configure do
   config.require_documentation = ENV.fetch("REQUIRE_DOCUMENTATION", "false") == "true"
-
+  config.disable_backordering = ENV.fetch("DISABLE_BACKORDERING", "false") == "true"
   config.current_store_id = ENV.fetch("CURRENT_STORE_ID", 1)
 
   config.weight_management = ENV.fetch("WEIGHT_MANAGEMENT", "on") == "on"

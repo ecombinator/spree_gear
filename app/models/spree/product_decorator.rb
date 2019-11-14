@@ -107,6 +107,16 @@ module Spree
                      discount_type: discount_type
     end
 
+    def can_supply?
+      return variants.any?(&:can_supply?) if has_variants?
+      variants_including_master.any? &:can_supply?
+    end
+
+    def in_stock?
+      return variants.any?(&:in_stock?) if has_variants?
+      variants_including_master.any? &:in_stock?
+    end
+
     private
 
     def make_available

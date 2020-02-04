@@ -12,8 +12,8 @@ module Spree
       end
 
       def adjust
-        quantity = params[:adjustment].to_i - @variant.total_on_hand
-        location.restock @variant, quantity
+        adjustment = params[:adjustment].to_i
+        location.restock @variant, adjustment
         flash[:success] = "Inventory adjusted!"
 #      rescue StandardError => e
 #        flash[:error] = "Could not restock this item"

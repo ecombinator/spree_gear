@@ -47,20 +47,18 @@ module Spree
       def filter_by_availability
         if params[:availability] == "discontinued"
           @variants = @variants.not_deleted.discontinued_products
-                          .includes(:option_values).includes(:stock_items)
-                          .order("#{Spree::Product.quoted_table_name}.name, #{Spree::Variant.quoted_table_name}.id")
         elsif params[:availability] == "out_of_stock"
-          @variants = @variants.with_active_product
-                          .includes(:option_values).includes(:stock_items)
-                          .order("#{Spree::Product.quoted_table_name}.name, #{Spree::Variant.quoted_table_name}.id")
+          @variants = @variants.with_currently_active_product
                           .where("quantity_sold_last_week > 0")
                           .where(spree_stock_items: { count_on_hand: 0 })
+        elsif params[:availability] == "not_yet_available"
+          @variants = @variants.with_not_yet_active_product
         else
           params[:availability] = "available"
-          @variants = @variants.with_active_product
-                          .includes(:option_values).includes(:stock_items)
-                          .order("#{Spree::Product.quoted_table_name}.name, #{Spree::Variant.quoted_table_name}.id")
+          @variants = @variants.with_currently_active_product
         end
+        @variants = @variants.includes(:option_values).includes(:stock_items).
+          order("#{Spree::Product.quoted_table_name}.name, #{Spree::Variant.quoted_table_name}.id")
       end
 
       def filter_by_category

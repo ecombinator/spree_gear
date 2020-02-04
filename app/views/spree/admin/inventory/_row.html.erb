@@ -1,26 +1,28 @@
 <tr id="variant-<%= variant.id %>" class="variant-row">
   <td>
     <button type="button" class="btn btn-primary btn-xs"
-            data-toggle="modal" data-target="#modal-<%= variant.id %>">Set</button>
-    <div class="modal fade" id="modal-<%= variant.id %>" role="dialog" >
+            data-toggle="modal" data-target="#modal-<%= variant.id %>">Add</button>
+    <div class="modal fade inventory-modal" id="modal-<%= variant.id %>" role="dialog" >
       <div class="modal-dialog" role="document">
         <%= form_for variant, url: "/admin/inventory/adjust.js", class: "form-inline", remote: true do |f| %>
           <div class="modal-content">
             <div class="modal-body">
-              <h5>Adjust stock:</h5>
+              <h5>Add stock:</h5>
               <h4><%= variant.short_descriptive_name %></h4>
               <input type="hidden" name="variant_id" value="<%= variant.id %>">
               <div class="form-group form-group-sm">
                 <div class="input-group">
-                  <input type="number" min="0" class="form-control" max=""
-                         value="<%= variant.total_on_hand %>" name="adjustment">
+                  <input type="number" name="adjustment" value="0" min="-<%= variant.total_on_hand %>" max="500" class="form-control adjustment-input">
                   <div class="input-group-addon">units</div>
                 </div>
+                <% if variant.total_on_hand > 0 %>
+                  <em class="hint small text-muted">Use negative numbers to remove up to <%= variant.total_on_hand %>.</em>
+                <% end %>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Set Stock</button>
+              <%= f.submit "Add Stock", class: "btn btn-primary" %>
             </div>
           </div>
         <% end %>

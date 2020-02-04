@@ -15,5 +15,6 @@
 //= require dataTables/jquery.dataTables
 //= require spree/backend/moment
 //= require spree/backend/daterangepicker
+//= require spree/backend/inventory
 
 //= require_tree .

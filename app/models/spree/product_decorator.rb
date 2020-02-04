@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_dependency 'spree/products/taxon_categories'
 require_dependency 'spree/products/revenue_scopes'
 require_dependency 'spree/products/weighing'
@@ -8,6 +9,22 @@ require_dependency 'spree/products/custom_scopes'
 require_dependency 'spree/products/stock_availability'
 
 module Spree
+  Product.instance_eval do
+    scope :currently_active, -> {
+      where(deleted_at: nil).where.not(available_on: nil).
+        where(discontinue_on: nil).
+        or(where(discontinue_on: Time.zone.now..DateTime::Infinity.new))
+    }
+    scope :not_yet_active, -> {
+                             where(deleted_at: nil).
+                               where(available_on: nil).
+                               or(where(available_on: 1.second.from_now..DateTime::Infinity.new))
+                           }
+    scope :discontinued, -> {
+      where.not(discontinue_on: nil).
+      where(discontinue_on: Time.at(0)..1.milliseconds.ago)
+    }
+  end
   Product.class_eval do
     include Spree::Product::TaxonCategories
     include Spree::Product::RevenueScopes
@@ -27,8 +44,7 @@ module Spree
 
     delegate :cost_price, to: :master
 
-    [ :wholesale_price, :sold_to_wholesalers, :sold_to_consumers
-    ].each do |method_name|
+    [:wholesale_price, :sold_to_wholesalers, :sold_to_consumers].each do |method_name|
       delegate method_name, :"#{method_name}=", to: :find_or_build_master
     end
 
@@ -128,4 +144,3 @@ module Spree
     end
   end
 end
-

@@ -3,13 +3,12 @@
 require Rails.root.join("lib/weight_converter")
 
 Spree::Variant.instance_eval do
-  scope :with_active_product, -> {
-    joins(:product).where("#{Spree::Product.quoted_table_name}.deleted_at IS NULL AND #{Spree::Product.quoted_table_name}.available_on IS NOT NULL")
-        .where("#{Spree::Product.quoted_table_name}.discontinue_on IS NULL or #{Spree::Product.quoted_table_name}.discontinue_on >= ?", Time.zone.now)
-  }
 
-  scope :discontinued_products, -> {
-    joins(:product).where.not(spree_products: {discontinue_on: nil})
+  scope :with_currently_active_product, -> { joins(:product).merge(Spree::Product.currently_active) }
+  scope :with_not_yet_active_product, -> { joins(:product).merge(Spree::Product.not_yet_active) }
+
+  scope :with_discontinued_products, -> {
+    joins(:product).merge(Spree::Product.discontinued)
   }
 
   scope :sold_to_consumers, (-> { where sold_to_consumers: true })

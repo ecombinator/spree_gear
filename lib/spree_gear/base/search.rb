@@ -26,8 +26,17 @@ module SpreeGear
         @products = initiate_search(assigned_params, gear_params, current_user)
       end
 
-      def category_count
-        @products.category_count
+      def category_counts
+        @products.category_counts
+      end
+
+      def option_type_counts
+        console
+        @products.option_type_counts
+      end
+
+      def option_type_count
+        @products.option_type_count
       end
 
       def by_scope(sorting_scope)

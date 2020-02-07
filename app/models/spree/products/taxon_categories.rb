@@ -25,8 +25,12 @@ module Spree
           joins(:taxons).where(name: names)
         }
 
-        scope :category_count, -> {
+        scope :category_counts, -> {
           joins(:taxons).group("spree_taxons.name").count
+        }
+
+        scope :option_type_counts, -> {
+          joins(:option_types).group("spree_option_types.name").count
         }
 
         TAXON_CATEGORIES_LIST.each do |type|

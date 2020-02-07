@@ -15,8 +15,7 @@ module SpreeGear
         end
 
         def deepest_taxon_for(product)
-          return "" if product.taxons.count == 0
-          product.taxons.order(:depth).last.name.singularize
+          product.deepest_taxon&.name&.singularize || ""
         end
 
         # def price_range_for(product)

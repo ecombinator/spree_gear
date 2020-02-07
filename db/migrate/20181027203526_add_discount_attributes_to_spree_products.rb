@@ -7,7 +7,7 @@ class AddDiscountAttributesToSpreeProducts < ActiveRecord::Migration[5.2]
   end
 
   def down
-    add_column :spree_products, :discount_amount
-    add_column :spree_products, :discount_type
+    remove_column :spree_products, :discount_amount
+    remove_column :spree_products, :discount_type
   end
 end

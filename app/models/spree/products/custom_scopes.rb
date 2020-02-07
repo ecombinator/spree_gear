@@ -33,6 +33,10 @@ module Spree
           order(consumer_lowest_price: :asc)
         }
 
+        scope :recommended, -> {
+          order("on_sale desc, deepest_taxon_id, consumer_lowest_price")
+        }
+
         scope :descend_by_variant_pricing_wholesaler, -> {
           # highest price
           order(wholesaler_highest_price: :desc)
@@ -52,16 +56,18 @@ module Spree
         }
 
         def self.lowest_and_highest_consumer_prices
+          range = self.ascend_by_variant_pricing
           [
-            self.ascend_by_variant_pricing.first.consumer_lowest_price,
-            self.descend_by_variant_pricing.first.consumer_highest_price
+            range.first.consumer_lowest_price,
+            range.last.consumer_highest_price
           ]
         end
 
         def self.lowest_and_highest_wholesaler_prices
+          range = self.ascend_by_variant_pricing_wholesaler
           [
-            self.ascend_by_variant_pricing_wholesaler.first.consumer_lowest_price,
-            self.ascend_by_variant_pricing_wholesaler.first.consumer_highest_price
+            range.first.wholesaler_lowest_price,
+            range.last.wholesaler_highest_price
           ]
         end
 

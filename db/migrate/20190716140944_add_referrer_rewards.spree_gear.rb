@@ -1,4 +1,3 @@
-# This migration comes from spree_gear (originally 20190716140944)
 class AddReferrerRewards < ActiveRecord::Migration[5.2]
   def up
     add_column :spree_users, :referral_token, :string, index: true

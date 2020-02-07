@@ -38,6 +38,7 @@ module Spree
              class_name: "Spree::CategoryProduct",
              foreign_key: "product_id",
              dependent: :destroy
+    belongs_to :deepest_taxon, optional: true
 
     serialize :price_range
     serialize :wholesale_price_range
@@ -68,6 +69,7 @@ module Spree
     def update_brand_and_main_category
       update_brand_name
       update_main_category_name
+      update_deepest_taxon_id
     end
 
     def update_brand_name
@@ -84,12 +86,17 @@ module Spree
                     taxons.where(taxonomy: taxonomy).order("spree_taxons.depth, spree_taxons.position DESC").last&.name
     end
 
+    def update_deepest_taxon_id
+      update_column :deepest_taxon_id, taxons.count == 0 ? nil : taxons.order(:depth).last&.id
+    end
+
     def variants_on_sale
       return [] unless master.respond_to? :on_sale?
       @variants_on_sale ||= variants_including_master.select(&:on_sale?)
     end
 
     def on_sale?
+      return on_sale unless on_sale.nil?
       discount_amount > 0 || variants_on_sale.any?
     end
 
@@ -120,7 +127,8 @@ module Spree
       end
 
       update_columns discount_amount: discount_amount,
-                     discount_type: discount_type
+                     discount_type: discount_type,
+                     on_sale: on_sale?
     end
 
     def can_supply?

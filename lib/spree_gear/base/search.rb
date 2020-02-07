@@ -42,9 +42,13 @@ module SpreeGear
       def price_range
         return [0, 0] unless @products.any?
         if current_user.present? && current_user.wholesaler?
-          @products.lowest_and_highest_wholesaler_prices.map { |g| g.to_i }
+          Rails.cache.fetch("price-range/wholesalers", expires_in: 5.minutes) do
+            @products.lowest_and_highest_wholesaler_prices.map { |g| g.to_i }
+          end
         else
-          @products.lowest_and_highest_consumer_prices.map { |g| g.to_i }
+          Rails.cache.fetch("price-range/consumers", expires_in: 5.minutes) do
+            @products.lowest_and_highest_consumer_prices.map { |g| g.to_i }
+          end
         end
       end
 

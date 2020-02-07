@@ -15,7 +15,8 @@ module Spree
             :variant_prices_between,
             :ascend_by_main_category_name,
             :ascend_by_brand_name,
-            :by_supply
+            :by_supply,
+            :recommended
           ].include?(used_scope)
         end
 

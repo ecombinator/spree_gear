@@ -3,15 +3,6 @@ require "spree_gear/importers/product_importer"
 require "spree_gear/importers/product_dump"
 
 namespace :spree_gear do
-  task test: :environment do
-    puts "works"
-  end
-
-  desc "Clear cache, so taxons work"
-  task cache_clear: :environment do
-    Rails.cache.clear
-  end
-
   desc "Update product price attributes"
   task update_prices: :environment do
     Spree::Product.available.each &:update_discount_attributes

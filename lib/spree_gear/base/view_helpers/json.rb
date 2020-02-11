@@ -35,7 +35,7 @@ module SpreeGear
               merge(
                 main_image: image_or_default_for(product),
                 link_to: product_path(product, taxon_id: @taxon.try(:id)),
-                on_sale: product.on_sale?,
+                on_sale: product.on_sale,
                 price: price_range_for(product),
                 in_stock: product.total_on_hand.positive?,
                 can_supply: product.can_supply?,

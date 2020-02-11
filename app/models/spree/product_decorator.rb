@@ -50,8 +50,7 @@ module Spree
     end
 
     before_validation :ensure_shipping_category
-    after_save :update_price_ranges
-    after_update :update_availability_status
+    after_save :enqueue_attribute_update
     after_update :update_brand_and_main_category
 
     self.whitelisted_ransackable_associations += ["classifications"]
@@ -64,6 +63,10 @@ module Spree
       if callback.raw_filter.respond_to? :attributes
         callback.raw_filter.attributes.delete :slug
       end
+    end
+
+    def enqueue_attribute_update
+      ProductAttributeUpdateJob.perform_later(self)
     end
 
     def update_brand_and_main_category
@@ -95,8 +98,8 @@ module Spree
       @variants_on_sale ||= variants_including_master.select(&:on_sale?)
     end
 
-    def on_sale?
-      return on_sale unless on_sale.nil?
+    def on_sale?(update: false)
+      return on_sale unless update || on_sale.nil?
       discount_amount > 0 || variants_on_sale.any?
     end
 
@@ -128,7 +131,7 @@ module Spree
 
       update_columns discount_amount: discount_amount,
                      discount_type: discount_type,
-                     on_sale: on_sale?
+                     on_sale: on_sale?(update: true)
     end
 
     def can_supply?

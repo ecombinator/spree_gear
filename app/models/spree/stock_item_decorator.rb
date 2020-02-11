@@ -1,7 +1,7 @@
 module Spree
   StockItem.instance_eval do
-    after_update :update_stock_statuses, if: :count_on_hand_changed?
-    after_update :update_product_availability
+    after_save :update_stock_statuses, if: :count_on_hand_changed?
+    after_save :update_product_availability
     before_save :disable_backordering, if: -> { Rails.application.config.disable_backordering }
   end
 

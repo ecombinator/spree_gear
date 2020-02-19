@@ -10,7 +10,7 @@ module SpreeGear
   module VERSION
     MAJOR = 1
     MINOR = 9
-    TINY  = 30
+    TINY  = 31
 
     STRING = [MAJOR, MINOR, TINY].compact.join('.')
   end

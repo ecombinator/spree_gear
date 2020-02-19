@@ -122,4 +122,3 @@ Spree::User.class_eval do
   end
 end
 
-require "spree_gear/importers/user_importer"

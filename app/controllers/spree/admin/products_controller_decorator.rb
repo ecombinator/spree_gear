@@ -67,7 +67,7 @@ Spree::Admin::ProductsController.class_eval do
     else
       @search = @collection.ransack(params[:q].reject { |k, _v| k.to_s == 'deleted_at_null' })
       @collection = @search.result.
-          distinct_by_product_ids(params[:q][:s]).
+#          spree_distinct_by_product_ids(params[:q][:s]).
           includes(product_includes)
     end
 

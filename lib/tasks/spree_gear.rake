@@ -1,6 +1,4 @@
 require "pp"
-require "spree_gear/importers/product_importer"
-require "spree_gear/importers/product_dump"
 
 namespace :spree_gear do
   desc "Update product price attributes"
@@ -56,14 +54,6 @@ namespace :spree_gear do
     end
   end
 
-  namespace :woocomerce_importer do
-    desc "Import products from the woocommerce importer"
-    task import_products: :environment do
-      importer = SpreeGear::Importers::ProductImporter.new ENV["WC_API_KEY"], ENV["WC_API_SECRET"]
-      importer.import!
-    end
-  end
-
   namespace :reports do
     desc "Attmepts to reignite the cache method by rendering the totals partial"
     task visit_totals: :environment do
@@ -89,29 +79,6 @@ namespace :spree_gear do
         end
       end
       puts "done visiting totals report"
-    end
-  end
-
-  namespace :product_dump do
-    desc "Exports spree products, variants, taxons (but not product images) currently in the database\
-      to a yml dumpfile called 'products_dump' "
-    task export_products: :environment do
-      importer = SpreeGear::Importers::ProductDump.new
-      importer.export_products
-    end
-
-    # eg: rake "spree_gear:import_products_dump[products_dump_1539541017.yml]"
-    desc "Import products, variants, taxons from generated yml file 'products_dump'"
-    task :import_products, [:file_name] => :environment do |t, args|
-      importer = SpreeGear::Importers::ProductDump.new
-      importer.import_products(args.file_name)
-    end
-
-    # Used after importing products from the dump file, since the dump file doesnt contain images
-    desc "Imports images from a folder, see source code for more info"
-    task :import_images_from, [:file_name] => :environment do |t, args|
-      importer = SpreeGear::Importers::ProductDump.new
-      importer.import_images(args.file_name)
     end
   end
 

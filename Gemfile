@@ -1,10 +1,8 @@
-ruby '2.5.1'
-
 source 'https://rubygems.org'
 
-gem 'spree', '~> 3.6.2'
-gem 'spree_auth_devise', "~> 3.3"
-gem 'spree_gateway', '~> 3.3'
+gem 'spree', '~> 3.7.10'
+gem 'spree_auth_devise', "~> 3.4"
+gem 'spree_gateway', '~> 3.4'
 
 gem 'spree_volume_pricing', github: "ecombinator/spree_volume_pricing"
 

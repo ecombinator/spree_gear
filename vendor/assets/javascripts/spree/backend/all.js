@@ -7,7 +7,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require spree/backend
-//= require spree/backend/spree_events_tracker
 //= require spree/backend/spree_reviews
 //= require spree/backend/spree_volume_pricing
 //= require spree/backend/sortable

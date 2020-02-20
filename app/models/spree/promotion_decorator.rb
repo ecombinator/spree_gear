@@ -20,7 +20,7 @@ module Spree
     end
 
     def update_available_products
-      Spree::Product.available.each &:update_discount_attributes
+      AvailableProductsAttributeUpdateJob.perform_later
     end
   end
 end

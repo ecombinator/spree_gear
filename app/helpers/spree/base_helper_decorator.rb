@@ -8,21 +8,15 @@ Spree::BaseHelper.module_eval do
     return {} unless object.is_a?(Spree::Product)
     properties = {}
     properties["og:type"] = "product"
+    properties["og:url"] = product_url(object)
     properties["og:title"] = "#{object.name} | #{current_store.name}"
-    properties["og:image"] = image_path image_or_default_for(object, :large)
+    properties["og:image"] = image_url image_or_default_for(object, :large)
     description = truncate(strip_tags(object.description), length: 160, separator: ' ')
     description.gsub!(/[\r\n]{2,}/, " ")
     properties["og:description"] = description
+    properties["twitter:image"] = properties["og:image"]
+    properties["twitter:description"] = properties["og:description"]
     properties["og:keywords"] = object.meta_keywords if object[:meta_keywords].present?
-    if properties["og:keywords"].blank? || properties["og:description"].blank?
-      if object && object[:name].present?
-        properties.reverse_merge!("og:keywords": [object.name, current_store.meta_keywords].reject(&:blank?).join(', '),
-                                  "og:description": [object.name, current_store.meta_description].reject(&:blank?).join(', '))
-      else
-        properties.reverse_merge!("og:keywords": (current_store.meta_keywords || current_store.seo_title),
-                                  "og:description": (current_store.meta_description || current_store.seo_title))
-      end
-    end
     properties
   end
 

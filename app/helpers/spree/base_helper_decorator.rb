@@ -1,14 +1,42 @@
 Spree::BaseHelper.module_eval do
-
   def current_store
     @current_store = Spree::Store.find(ENV.fetch("CURRENT_STORE_ID", Spree::Store.default.id))
+  end
+
+  def open_graph_properties
+    object = instance_variable_get('@' + controller_name.singularize)
+    return {} unless object.is_a?(Spree::Product)
+    properties = {}
+    properties["og:type"] = "product"
+    properties["og:title"] = "#{object.name} | #{current_store.name}"
+    properties["og:image"] = image_path image_or_default_for(object, :large)
+    description = truncate(strip_tags(object.description), length: 160, separator: ' ')
+    description.gsub!(/[\r\n]{2,}/, " ")
+    properties["og:description"] = description
+    properties["og:keywords"] = object.meta_keywords if object[:meta_keywords].present?
+    if properties["og:keywords"].blank? || properties["og:description"].blank?
+      if object && object[:name].present?
+        properties.reverse_merge!("og:keywords": [object.name, current_store.meta_keywords].reject(&:blank?).join(', '),
+                                  "og:description": [object.name, current_store.meta_description].reject(&:blank?).join(', '))
+      else
+        properties.reverse_merge!("og:keywords": (current_store.meta_keywords || current_store.seo_title),
+                                  "og:description": (current_store.meta_description || current_store.seo_title))
+      end
+    end
+    properties
+  end
+
+  def open_graph_tags
+    open_graph_properties.map do |property, content|
+      tag('meta', property: property, content: content) if !(property.nil? || content.nil?)
+    end.join("\n")
   end
 
   def checkout_progress(numbers: false)
     states = @order.checkout_steps
     items = states.each_with_index.map do |state, i|
       text = state_titles(state)
-      text = ("#{i.succ}") if numbers
+      text = "#{i.succ}" if numbers
 
       css_classes = []
       current_index = states.index(@order.state)
@@ -83,6 +111,6 @@ Spree::BaseHelper.module_eval do
   end
 
   def current_user_unidentified?
-    @user && !@user.identification.present?
+    @user && @user.identification.blank?
   end
 end

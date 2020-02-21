@@ -11,9 +11,7 @@ Spree::BaseHelper.module_eval do
     properties["og:url"] = product_url(object)
     properties["og:title"] = "#{object.name} | #{current_store.name}"
     properties["og:image"] = image_url image_or_default_for(object, :large)
-    description = truncate(strip_tags(object.description), length: 160, separator: ' ')
-    description.gsub!(/[\r\n]{2,}/, " ")
-    properties["og:description"] = description
+    properties["og:description"] = truncate(strip_tags(object.description), length: 160, separator: ' ').gsub!(/[\r\n]{2,}/, " ")
     properties["twitter:image"] = properties["og:image"]
     properties["twitter:description"] = properties["og:description"]
     properties["og:keywords"] = object.meta_keywords if object[:meta_keywords].present?
@@ -24,6 +22,19 @@ Spree::BaseHelper.module_eval do
     open_graph_properties.map do |property, content|
       tag('meta', property: property, content: content) if !(property.nil? || content.nil?)
     end.join("\n")
+  end
+
+  def ld_json_object
+    object = instance_variable_get('@' + controller_name.singularize)
+    return {} unless object.is_a?(Spree::Product)
+    {
+      "@type": "Product",
+      "@context": "http://schema.org/",
+      "category": object.deepest_taxon.name,
+      "name": object.name,
+      "image": image_url(image_or_default_for(object, :large)),
+      "description": strip_tags(object.description).gsub!(/[\r\n]{2,}/, " ")
+    }
   end
 
   def checkout_progress(numbers: false)

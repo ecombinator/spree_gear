@@ -70,8 +70,6 @@ module Spree
             price.save!
           end
         end
-
-
       end
     end
   end

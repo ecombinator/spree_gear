@@ -3,7 +3,7 @@ Rails.application.configure do
   config.disable_backordering = ENV.fetch("DISABLE_BACKORDERING", "false") == "true"
   config.current_store_id = ENV.fetch("CURRENT_STORE_ID", 1)
 
-  config.weight_management = ENV.fetch("WEIGHT_MANAGEMENT", "on") == "on"
+  config.weight_management = ENV.fetch("WEIGHT_MANAGEMENT", "off") == "on"
   config.weighty_permalinks = false
 
   config.contact_notification_email = ENV.fetch("CONTACT_NOTIFICATION_EMAIL", "info@test.com")

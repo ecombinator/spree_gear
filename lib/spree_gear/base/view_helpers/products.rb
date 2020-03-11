@@ -35,7 +35,10 @@ module SpreeGear
           else
             range = product.price_range
           end
-          range.uniq.map { |p| number_to_currency(p, precision: 0) }.join(" - ")
+          range.uniq.map { |p|
+            precision = p % 1 != 0 ? 2 : 0
+            number_to_currency(p, precision: precision)
+          }.join(" - ")
         end
 
         def stock_text(variant)

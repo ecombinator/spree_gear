@@ -35,7 +35,7 @@ module Spree
       @order = order.respond_to?(:id) ? order : Spree::Order.find(order)
       subject = (resend ? "[#{Spree.t(:resend).upcase}] " : '')
       subject += "#{Spree::Store.current.name} #{Spree.t('order_mailer.confirm_email.subject')} ##{@order.number}"
-      cc = ENV.fetch("NOTIFICATIONS_EMAIL", "info@test.com")
+      cc = ENV.fetch("NOTIFICATIONS_EMAIL", "")
       mail(to: @order.email, cc: cc,from: from_address, subject: subject)
     end
   end

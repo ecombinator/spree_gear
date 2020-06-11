@@ -1,5 +1,5 @@
-$(document).ready(function() {
-  $('#orders-select-all').click(function() {
-    $('.js-order-checkbox').click();
+$(document).ready(() => {
+  $("#orders-select-all").click(() => {
+    $(".js-order-checkbox").click();
   });
 });

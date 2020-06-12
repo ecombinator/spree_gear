@@ -3,6 +3,8 @@ module Spree
     belongs_to :user, inverse_of: :mailing_recipient, optional: true
     validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
+    scope :active_non_users, -> { where(spree_user_id: nil, opted_in: true) }
+
     def self.from_email(email)
       existing = find_by_email(email)
       return existing if existing

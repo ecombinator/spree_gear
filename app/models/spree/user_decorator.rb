@@ -25,6 +25,10 @@ Spree::User.class_eval do
   scope :sales_reps, -> { where(sales_rep: true) }
   scope :wholesalers, -> { where.not(company: nil) }
 
+  def self.mailing_recipients
+    where("spree_users.id NOT IN (SELECT spree_user_id from spree_mailing_recipients WHERE opted_in = false AND NOT spree_user_id = null)")
+  end
+
   def self.named_sales_reps
     sales_reps.select { |u| u.rep_name.present? }
   end

@@ -11,14 +11,12 @@ module Spree
     def send_to!(recipients)
       reset_counts!(recipients.length)
       recipients.each do |recipient|
-        begin
-          next unless recipient.opted_in
-          Spree::MarketingMailer.mass_email(self, recipient).deliver_now!
-          update_column :sent_emails_count, sent_emails_count + 1
-        rescue => error
-          update_column :failed_emails_count, failed_emails_count + 1
-          raise error if Rails.env.development?
-        end
+        next unless recipient.opted_in
+        Spree::MarketingMailer.mass_email(self, recipient).deliver_now!
+        update_column :sent_emails_count, sent_emails_count + 1
+      rescue => error
+        update_column :failed_emails_count, failed_emails_count + 1
+        raise error if Rails.env.development?
       end
     end
 

@@ -24,13 +24,13 @@
   </div>
 
   <div class="form-group">
-    Deliver to users (<%= number_to_human(Spree::User.all.count) %>)&#63;
+    Deliver to users (<%= number_to_human(Spree::User.mailing_recipients.count, precision: 2) %>)&#63;
     <%= form.check_box :deliver_to_users %>
   </div>
 
 
   <div class="form-group">
-    Deliver to non-users (<%= number_to_human(Spree::MailingRecipient.where(spree_user_id: nil).count) %>)&#63;
+    Deliver to non-users (<%= number_to_human(Spree::MailingRecipient.active_non_users.count, precision: 2) %>)&#63;
     <%= form.check_box :deliver_to_non_users %>
   </div>
 

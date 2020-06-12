@@ -1,0 +1,13 @@
+<%= form_for :mailing_recipients, url: admin_bulk_suppress_mailing_recipients_path, html: { multipart: true },
+             method: :post, local: true do |f| %>
+  <%= f.hidden_field :opted_in, value: false %>
+
+  <div class="form-group">
+    <%= f.label :csv, "Upload CSV" %>
+    <%= f.file_field :csv, class: "form-control", required: true %>
+  </div>
+
+  <div class="actions form-group">
+    <%= f.submit "Upload", class: "btn btn-danger" %>
+  </div>
+<% end %>

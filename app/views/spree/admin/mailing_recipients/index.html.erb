@@ -1,0 +1,33 @@
+<h1>Subscribers</h1>
+<%= form_tag admin_mailing_recipients_path, method: :get do |f| -%>
+  <div class="input-group">
+    <%= text_field_tag :search, params[:search], class: "form-control" %>
+    <% if params[:search].present? %>
+        <span class="input-group-addon">
+      <%= link_to admin_mailing_recipients_path(limit: params[:limit], page: params[:page])  do%>
+          <span class="glyphicon glyphicon-remove"></span>
+      <% end %>
+        </span>
+    <% else %>
+      <span class="input-group-addon" onclick="$(this).closest('form').submit();">
+        <span class="glyphicon glyphicon-search"></span>
+      </span>
+    <% end %>
+  </div>
+<% end -%>
+<div class="container-fluid">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Address</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+      <%= render partial: "row", collection: @recipients, as: :recipient %>
+    </tbody>
+  </table>
+  <%= paginate @recipients %>
+</div>
+
+<a href="<%= suppress_admin_mailing_recipients_path %>" class="btn btn-sm pull-left">Upload Suppression List</a>

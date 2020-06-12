@@ -5,6 +5,5 @@ module SpreeGear
   end
 end
 
-
 require "spree_gear/base/controller_helpers/global"
 require "spree_gear/base/controller_helpers/search"

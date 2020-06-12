@@ -3,17 +3,19 @@
 
 (function($) {
   $(document).on("turbolinks:load", function(){
-    if ($(".select_address").length > 0) {
-      $('input#order_use_billing').unbind("change");
+    if ($(".select_address").length === 0) return;
+
+      const $orderUseBilling = $('input#order_use_billing');
+      $orderUseBilling.unbind("change");
 
       hide_address_form('billing');
       hide_address_form('shipping');
 
-      if ($('input#order_use_billing').is(':checked')) {
+      if ($orderUseBilling.is(':checked')) {
         $("#shipping .select_address").hide();
       }
 
-      $('input#order_use_billing').click(function() {
+      $orderUseBilling.click(function() {
         if ($(this).is(':checked')) {
           $("#shipping .select_address").hide();
           hide_address_form('shipping');
@@ -42,7 +44,6 @@
           hide_address_form('shipping');
         }
       });
-    }
   });
 
   function hide_address_form(address_type){

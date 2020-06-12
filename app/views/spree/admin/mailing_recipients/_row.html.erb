@@ -1,0 +1,15 @@
+<tr class="recipient-<%= recipient.id %>">
+  <td><%= recipient.email %></td>
+    <% if recipient.opted_in %>
+    <td>
+      <%= form_for [:admin, recipient], remote: true do |f| -%>
+        <%= f.hidden_field :opted_in, value: "0" -%>
+        <%= f.submit 'Opt-Out', class: "btn-xs btn-default" -%>
+      <%- end -%>
+    </td>
+    <% else %>
+    <td class="text-muted small">
+      Opted-Out
+    </td>
+    <% end %>
+</tr>

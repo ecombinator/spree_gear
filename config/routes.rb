@@ -57,6 +57,15 @@ Rails.application.routes.draw do
       post "/users/:id/approve", to: "users#approve", as: :approve_user
 
       resources :home_categories, except: [:new]
+      resources :mailing_recipients, only: [:index, :update] do
+        collection do
+          get :suppress
+        end
+      end
+      get "/mailing_recipients/suppress", to: "mailing_recipients#suppress", as: :suppress_mailing_recipients
+      match "/mailing_recipients", via: [:post], to: "mailing_recipients#bulk_suppress", as: :bulk_suppress_mailing_recipients
+
+
       resources :mailing_sections
       resources :mailings do
         member do

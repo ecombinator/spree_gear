@@ -37,31 +37,31 @@ $(document).ready(() => {
     });
 
     // move products on click
-    $("#category-area").on("click", ".product-select", () => {
-      const productId = $(this).attr("product-id");
-      if ($(this).parent().attr("id") === "search-content") {
+    $("#category-area").on("click", ".product-select", (event) => {
+      const el = $(event.target).closest(".product-select");
+      const productId = $(el).attr("product-id");
+      console.log(el);
+      if ($(el).parent().attr("id") === "search-content") {
         $("#no-products").remove();
-        const elem = $(this).detach();
+        const elem = $(el).detach();
         $("#category-products").append(elem);
         $("#category-form").append(
           `<input type="hidden" name="category_product[]" value="${productId}">`
         );
       } else {
-        $(this).hide(500, () => {
-          const categoryProdId = $(this).attr("home-category-id");
-          if (categoryProdId) {
-            $.ajax({
-              type: "DELETE",
-              dataType: "script",
-              url: `/admin/category_product?home_category_id=${categoryProdId}&product_id=${$(
-                this
-              ).attr("product-id")}`,
-            });
-          }
+        const categoryProdId = $(el).attr("home-category-id");
+        if (categoryProdId) {
+          $.ajax({
+            type: "DELETE",
+            dataType: "script",
+            url: `/admin/category_product?home_category_id=${categoryProdId}&product_id=${$(
+              this
+            ).attr("product-id")}`,
+          });
+        }
 
-          $("#category-form").find(`[value=${productId}]`).remove();
-          $(this).remove();
-        });
+        $("#category-form").find(`[value=${productId}]`).remove();
+        $(el).remove();
       }
     });
   }

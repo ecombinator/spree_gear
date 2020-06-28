@@ -54,9 +54,7 @@ $(document).ready(() => {
           $.ajax({
             type: "DELETE",
             dataType: "script",
-            url: `/admin/category_product?home_category_id=${categoryProdId}&product_id=${$(
-              this
-            ).attr("product-id")}`,
+            url: `/admin/category_product?home_category_id=${categoryProdId}&product_id=${productId}`,
           });
         }
 

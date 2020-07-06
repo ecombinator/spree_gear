@@ -55,14 +55,17 @@ module Spree
         unless cookies[:order_state_filter] || params[:referrer]
           if spree_current_user.has_spree_role?("packer")
             cookies[:order_state_filter] = "paid"
-          elsif spree_current_user.has_spree_role?("shipper")
-            cookies[:order_state_filter] = "ready"
           elsif spree_current_user.has_spree_role?("billing_manager")
             cookies[:order_state_filter] = "not_paid"
+          elsif spree_current_user.has_spree_role?("shipper") && Rails.application.config.ready_to_ship
+            cookies[:order_state_filter] = "ready"
           end
         end
 
-        cookies.delete :order_state_filter if params[:order_state_filter] == "all"
+        if params[:order_state_filter] == "all" ||
+          (!Rails.application.config.ready_to_ship && params[:order_state_filter] == "ready")
+          cookies.delete :order_state_filter
+        end
 
         if cookies[:order_state_filter].present?
           case cookies[:order_state_filter]
@@ -89,7 +92,8 @@ end
 class AbilityDecorator
   include CanCan::Ability
   def initialize(user)
-    if user.respond_to?(:has_spree_role?) && user.has_spree_role?("packer") || user.has_spree_role?("shipper") || user.has_spree_role?("billing_manager")
+    if user.respond_to?(:has_spree_role?) && user.has_spree_role?("packer") ||
+      user.has_spree_role?("shipper") || user.has_spree_role?("billing_manager")
       can [:admin, :index, :show], Spree::Order
 
       can [:edit], Spree::Order if user.has_spree_role?("billing_manager")

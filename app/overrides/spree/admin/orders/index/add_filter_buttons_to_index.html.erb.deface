@@ -7,7 +7,9 @@
 					<%= button_link_to "Unpaid", admin_orders_path, class: "btn btn-xs btn-filter", id: 'not_paid_filter', data: { filter: "not_paid", model: "order" } %>
 			<% end %>
 		<%= button_link_to "Paid", admin_orders_path, class: "btn btn-xs btn-filter", id: 'paid_filter', data: { filter: "paid", model: "order" } %>
-		<%= button_link_to "Ready to Ship", admin_orders_path, class: "btn btn-xs btn-filter", id: 'ready_filter', data: { filter: "ready", model: "order" } %>
+		<% if Rails.application.config.ready_to_ship %>
+			<%= button_link_to "Ready to Ship", admin_orders_path, class: "btn btn-xs btn-filter", id: 'ready_filter', data: { filter: "ready", model: "order" } %>
+		<% end %>
     <%= button_link_to "Shipped", admin_orders_path, class: "btn btn-xs btn-filter", id: 'shipped_filter', data: { filter: "shipped", model: "order" } %>
 	</div>
 

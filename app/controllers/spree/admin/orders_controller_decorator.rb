@@ -70,14 +70,23 @@ module Spree
         if cookies[:order_state_filter].present?
           case cookies[:order_state_filter]
           when "not_paid"
-            @orders = @orders.where.not(payment_state: ["paid", "void"])
+            @orders = @orders.
+              where(state: "complete").
+              where.not(payment_state: "paid").
+              where.not(shipment_state: "shipped")
           when "paid"
-            @orders = @orders.where(payment_state: "paid").where.not(shipment_state: "shipped")
+            @orders = @orders.
+              where(state: "complete").
+              where(payment_state: "paid").
+              where.not(shipment_state: "shipped")
             @orders = @orders.where(approved_at: nil) if Rails.application.config.ready_to_ship
           when "ready"
-            @orders = @orders.where(shipment_state: "ready").where.not(approved_at: nil)
+            @orders = @orders.
+              where(shipment_state: "ready").
+              where.not(approved_at: nil)
           when "shipped"
-            @orders = @orders.where(shipment_state: "shipped")
+            @orders = @orders.
+              where(shipment_state: "shipped")
           end
         end
       end

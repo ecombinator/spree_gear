@@ -72,7 +72,8 @@ module Spree
           when "not_paid"
             @orders = @orders.where.not(payment_state: ["paid", "void"])
           when "paid"
-            @orders = @orders.where(payment_state: "paid", approved_at: nil).where.not(shipment_state: "shipped")
+            @orders = @orders.where(payment_state: "paid").where.not(shipment_state: "shipped")
+            @orders = @orders.where(approved_at: nil) if Rails.application.config.ready_to_ship
           when "ready"
             @orders = @orders.where(shipment_state: "ready").where.not(approved_at: nil)
           when "shipped"

@@ -22,10 +22,6 @@ module Spree
       return if self.class.parent == Admin
       user = try_spree_current_user
       return if !user || user.new_record? || user.wholesaler?
-      if ENV.fetch("REQUIRE_USER_APPROVAL", "false") == "true" && user.identification.present? && !user.patient?
-        flash[:notice] = "Please wait for your identification to be approved"
-        redirect_to "#{account_path}#account-details" and return
-      end
 
       redirect_to "#{account_path}#account-details" and return unless user.identification.present?
     end
